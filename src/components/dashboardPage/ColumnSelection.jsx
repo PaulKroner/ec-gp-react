@@ -23,7 +23,7 @@ const ColumnSelection = ({ showNachweise, handleToggle }) => {
   ];
 
   return (
-    <section className="flex flex-col gap-4 p-4 border-2 rounded-2xl">
+    <section className="flex flex-col justify-center gap-4 p-4 border-2 rounded-2xl">
       <p className="flex justify-center text-center">
         Wähle aus, was du filtern möchtest:
       </p>
