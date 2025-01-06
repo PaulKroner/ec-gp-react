@@ -11,14 +11,10 @@ import {
 } from "../ui/alert-dialog"
 import { Button, buttonVariants } from "../ui/button"
 import { useToast } from "../../hooks/use-toast";
-// import { deleteEmployee } from "@/app/api/DashboardTableAPI";
+import { deleteEmployee } from "../../api/DashboardTableAPI";
 const DeleteEmployee = ({ data, row, setData }) => {
 
   const { toast } = useToast();
-
-  function deleteEmployee() {
-    console.log("deleteEmployee");
-  }
 
   return (
     <>
