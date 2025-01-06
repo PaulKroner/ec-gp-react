@@ -1,20 +1,17 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useContext } from "react";
 import EditDialog from "./EditDialog";
 import DeleteEmployee from "./DeleteEmployee";
 import TablePagination from "./TablePagination";
 import LoadingContainer from "../LoadingContainer/LoadingContainer";
-// import { useContext } from "react";
-// import { AuthContext } from "@/app/context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import { formatDate } from "../../lib/utils";
 
 const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, rowsPerPage }) => {
 
   const [currentPage, setCurrentPage] = useState(1); // State for the current page of pagination[]
-  // const { userRole, isAuthenticated } = useContext(AuthContext);
-  const userRole = 1;
-  const isAuthenticated = true;
+  const { userRole, isAuthenticated } = useContext(AuthContext);
 
   // if (loading) {
   //   return <LoadingContainer />; // Ladecontainer anzeigen, wenn loading true ist

@@ -2,12 +2,10 @@
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const PostalAdress = ({ formData, setFormData }) => {
-  // const { userRole, isAuthenticated } = useContext(AuthContext);
-  const userRole = 1;
-  const isAuthenticated = true;
-  
+  const { userRole, isAuthenticated } = useContext(AuthContext);
   const [postalData, setPostalData] = useState({
     street: "",
     housenumber: "",
@@ -83,7 +81,6 @@ const PostalAdress = ({ formData, setFormData }) => {
         [id]: numericValue,
       };
     } else {
-      // Update other fields as usual
       updatedPostalData = {
         ...postalData,
         [id]: value,
@@ -100,8 +97,6 @@ const PostalAdress = ({ formData, setFormData }) => {
       ...prevData,
       postadresse: fullAddress.trim(),
     }));
-
-    console.log(formData.postadresse);
   };
 
   return (

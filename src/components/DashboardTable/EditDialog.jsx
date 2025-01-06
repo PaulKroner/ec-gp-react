@@ -6,7 +6,7 @@ import { useToast } from "../../hooks/use-toast";
 import { useState, useEffect } from "react";
 import { calculateExpirationDate } from "../../lib/utils";
 import ModalSubmitButton from "../ModalSubmitButton";
-// import { updateEmployee } from "@/app/api/DashboardTableAPI";
+import { updateEmployee } from "../../api/DashboardTableAPI";
 import PostalAdress from "../PostalAdress";
 import { formatDateForInput } from "../../lib/utils";
 
@@ -47,20 +47,6 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
     fz_kontrolliert_second: '',
     hauptamt: data.hauptamt || false,
   });
-
-  useEffect(() => {
-    const fields = ["fz", "gs", "us"];
-
-    const updatedDisabled = fields.reduce((acc, field) => {
-      acc[`${field}_abgelaufen`] = !formData[`${field}_eingetragen`];
-      return acc;
-    }, {});
-
-    const gsErneuertDisabled = !formData.gs_eingetragen;
-    updatedDisabled.gs_erneuert = gsErneuertDisabled;
-
-    setDisabled(updatedDisabled);
-  }, [formData]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -191,8 +177,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
       fz_kontrolliert
     };
 
-    // updateEmployee(updatedFormData.id, updatedFormData, setData, toast, setLoading);
-    console.log(updatedFormData);
+    updateEmployee(updatedFormData.id, updatedFormData, setData, toast, setLoading);
   };
 
   // Hauptamt button
@@ -217,6 +202,20 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
       }));
     }
   };
+
+  useEffect(() => {
+    const fields = ["fz", "gs", "us"];
+
+    const updatedDisabled = fields.reduce((acc, field) => {
+      acc[`${field}_abgelaufen`] = !formData[`${field}_eingetragen`];
+      return acc;
+    }, {});
+
+    const gsErneuertDisabled = !formData.gs_eingetragen;
+    updatedDisabled.gs_erneuert = gsErneuertDisabled;
+
+    setDisabled(updatedDisabled);
+  }, [formData]);
 
   return (
     <>

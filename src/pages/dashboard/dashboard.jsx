@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ColumnSelection from '../../components/dashboardPage/ColumnSelection';
 import SelectNumberRows from '../../components/dashboardPage/SelectNumberRows';
 import SelectRowSort from '../../components/dashboardPage/SelectRowSort';
@@ -6,38 +6,14 @@ import NavBar from '../../components/Navbar/Navbar';
 import TableSearchBar from '../../components/dashboardPage/TableSearchBar';
 import AddEmployeeDialog from '../../components/dashboardPage/AddEmployeeDialog';
 import DashboardTable from '../../components/DashboardTable/DashboardTable';
+import WithAuth from '../../context/WithAuth';
+import { UserRole, AuthContext } from '../../context/AuthContext';
+import { getData } from '../../api/DashboardTableAPI';
 
 const Dashboard = () => {
 
-  // Platzhalter
-  const userRole = 1;
-
-  const [test, setData] = useState([]);
-
-  // Platzhalter
-  const data = [
-    {
-      id: 1,
-      name: "Nachname",
-      vorname: "Vorname",
-      email: "email@example.com",
-      postadresse: "Straße 34 12345 Musterstadt",
-      fz_eingetragen: "2025-01-01",
-      fz_abgelaufen: "2026-01-01",
-      fz_kontrolliert: "Mustername",
-      fz_kontrolliert_am: "2025-01-05",
-      gs_eingetragen: "2025-02-01",
-      gs_erneuert: "",
-      gs_kontrolliert: "Mustername",
-      us_eingetragen: "2025-03-01",
-      us_abgelaufen: "2026-03-01",
-      us_kontrolliert: "Mustername",
-      sve_eingetragen: "2025-04-01",
-      sve_kontrolliert: "Mustername",
-      hauptamt: true, // Boolean to indicate "Ja" or "Nein"
-    },
-  ];
-  
+  const { userRole } = useContext(AuthContext);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true); // For loading state
   // state for showing / hiding columns
   const [showNachweise, setShowNachweise] = useState({
@@ -63,6 +39,18 @@ const Dashboard = () => {
       [nachweis]: !prevState[nachweis],
     }));
   };
+
+  // Fetch data from the backend on mount
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getData();
+      if (result) {
+        setData(result);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -115,4 +103,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default WithAuth(Dashboard, UserRole.User);

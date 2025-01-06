@@ -15,7 +15,7 @@ import { useToast } from "../../hooks/use-toast";
 import { useState } from "react";
 import { calculateExpirationDate } from "../../lib/utils";
 import ModalSubmitButton from "../ModalSubmitButton";
-// import { InsertEmployee } from "@/app/api/DashboardPageAPI";
+import { InsertEmployee } from "../../api/DashboardPageAPI";
 import PostalAdress from "../PostalAdress";
 import {
   Popover,
@@ -170,7 +170,7 @@ const AddEmployeeDialog = () => {
       fz_kontrolliert
     });
 
-    // InsertEmployee(transformedFormData, toast, setLoading)
+    InsertEmployee(transformedFormData, toast, setLoading)
   }
 
   // Hauptamt button
