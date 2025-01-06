@@ -1,11 +1,12 @@
 import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 export const handleLogin = async (event, email, password, setLoading, login, toast, navigate) => {
   event.preventDefault();
   setLoading(true); // show loading spinner
 
   try {
-    const res = await axios.post('http://localhost:8080/login', {
+    const res = await axiosInstance.post('/login', {
       email, password
     });
 

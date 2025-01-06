@@ -1,9 +1,10 @@
 import axios from 'axios';
+import axiosInstanceAPI from './axiosInstanceAPI';
 
 // Function to get users from the backend
 export const getDataRoles = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/getDataRoles');
+    const response = await axiosInstanceAPI.get('/getDataRoles');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
@@ -12,7 +13,7 @@ export const getDataRoles = async () => {
 
 export const deleteUserFromDB = async (id, toast, data, setData) => {
   try {
-    await axios.delete(`http://localhost:8080/api/deleteUser/${id}`);
+    await axiosInstanceAPI.delete(`/deleteUser/${id}`);
     setData(data.filter(employee => employee.id !== id));
     toast({
       description: "Mitarbeiter wurde erfolgreich gelöscht.",
@@ -37,7 +38,7 @@ export const deleteUserFromDB = async (id, toast, data, setData) => {
 export const updateUser = async (id, formData, setLoading, setData, toast, getDataRoles) => {
   setLoading(true);
   try {
-    const response = await axios.put(`http://localhost:8080/api/updateUser/${id}`, formData, {
+    const response = await axiosInstanceAPI.put(`/updateUser/${id}`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },

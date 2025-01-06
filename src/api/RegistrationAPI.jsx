@@ -1,5 +1,6 @@
-// import { data } from "autoprefixer";
 import axios from "axios";
+import axiosInstance from "./axiosInstanceAPI";
+import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const handleRegistration = async (event, email, password, role, name, vorname, toast, setLoading, navigate) => {
   event.preventDefault();
@@ -15,7 +16,7 @@ export const handleRegistration = async (event, email, password, role, name, vor
   }
 
   try {
-    const response = await axios.post('http://localhost:8080/register', {
+    const response = await axiosInstance.post('/register', {
       email: lowerCaseEmail, password, role, name, vorname
     }, {
       headers: {
@@ -51,7 +52,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
   setLoading(true); // show loading spinner
   try {
     checkAccordance(); // throw error if passwords don't match
-    const res = await axios.post('http://localhost:8080/api/resetPassword', {
+    const res = await axiosInstanceAPI.post('/resetPassword', {
       token, // use the token from the URL
       newPassword: password,
     });
@@ -88,7 +89,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
 export const handleResetRequest = async (event, email, toast, setLoading) => {
   event.preventDefault();
   setLoading(true);
-  await axios.post('http://localhost:8080/api/sendResetPasswordEmail', {
+  await axiosInstanceAPI.post('/sendResetPasswordEmail', {
     email,
   });
   toast({

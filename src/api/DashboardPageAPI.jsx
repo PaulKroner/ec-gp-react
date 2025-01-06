@@ -1,10 +1,10 @@
-import axios from "axios";
+import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const InsertEmployee = async (transformedFormData, toast, setLoading) => {
   setLoading(true);
   
   try {
-    const response = await axios.post('http://localhost:8080/api/create', transformedFormData, {
+    const response = await axiosInstanceAPI.post('/create', transformedFormData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -12,7 +12,7 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
 
     // Check if fz_eingetragen is empty before sending the email
     if (transformedFormData.fz_eingetragen === null) {
-      await axios.post('http://localhost:8080/api/sendEmailRequestFZ', {
+      await axiosInstanceAPI.post('sendEmailRequestFZ', {
         email: transformedFormData.email,
         name: transformedFormData.name
       }, {
@@ -20,7 +20,6 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
           'Content-Type': 'application/json',
         },
       });
-      console.log("Email sent to " + transformedFormData.email);
     }
 
     window.location = "/dashboard"; // workaround to refresh the page

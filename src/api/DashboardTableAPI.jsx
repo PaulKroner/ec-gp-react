@@ -1,8 +1,8 @@
-import axios from "axios";
+import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const getData = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/api/getdata');
+    const response = await axiosInstanceAPI.get('/getdata');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
@@ -11,7 +11,7 @@ export const getData = async () => {
 
 export const deleteEmployee = async (id, data, setData, toast) => {
   try {
-    await axios.delete(`http://localhost:8080/api/delete/${id}`);
+    await axiosInstanceAPI.delete(`/delete/${id}`);
     setData(data.filter(employee => employee.id !== id));
     toast({
       description: "Mitarbeiter wurde erfolgreich gelöscht.",
@@ -36,7 +36,7 @@ export const deleteEmployee = async (id, data, setData, toast) => {
 export const updateEmployee = async (id, formData, setData, toast, setLoading) => {
   setLoading(true);
   try {
-    const response = await axios.put(`http://localhost:8080/api/update/${id}`, formData, {
+    const response = await axiosInstanceAPI.put(`/update/${id}`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
