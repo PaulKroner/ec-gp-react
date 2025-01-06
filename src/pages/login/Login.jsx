@@ -1,0 +1,87 @@
+/**
+ * Login component for user authentication.
+ * This component provides a form for users to enter their email and password to log in. 
+ * It handles form submission, sending credentials to the server for validation, and provides 
+ * feedback on the login status (success or failure).
+ */
+
+import { useState, useContext } from 'react';
+import { useToast } from "../../hooks/use-toast";
+import { AuthContext } from "../../context/AuthContext";
+import SubmitButton from "../../components/SubmitButton";
+import { handleLogin } from "../../api/LoginAPI";
+import { useNavigate } from "react-router-dom";
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Access the login function from context
+
+  const routeToReset = (event) => {
+    event.preventDefault();
+    // router.push("/registration/resetPasswordRequest");
+    navigate("/registration/resetPasswordRequest");
+  }
+
+  return (
+    <div className='flex min-h-screen flex-col items-center justify-center p-24 bg-ec '>
+      <div className="bg-white h-full rounded-2xl p-12">
+        <form onSubmit={(event) => handleLogin(event, email, password, setLoading, login, toast, navigate)} className="flex flex-col justify-center items-center gap-6">
+          <div className="flex justify-center items-center font-extrabold headline">
+            Login
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              E-Mail-Adresse
+            </label>
+            <div className="relative mt-2 rounded-md shadow-sm">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="email@beispiel.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value.trim().toLowerCase())}
+                className="block w-64 rounded-md border-0 py-1.5 pl-4 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                aria-label="Email address"
+                autoComplete="email"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              Passwort
+            </label>
+            <div className="relative mt-2 rounded-md shadow-sm">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="********"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="block w-64 rounded-md border-0 py-1.5 pl-4 pr-4 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
+                aria-label="Password"
+                autoComplete="password"
+                required
+              />
+            </div>
+          </div>
+
+          <SubmitButton text={"einloggen"} loading={loading} />
+        </form>
+        <a href="" onClick={routeToReset} className="flex justify-end mt-4 text-sm font-medium text-primary-600 hover:underline text-blue-500">Passwort zurücksetzen?</a>
+      </div>
+    </div>
+
+  );
+};
+
+export default Login;
