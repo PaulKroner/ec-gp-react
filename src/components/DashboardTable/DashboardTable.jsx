@@ -77,9 +77,7 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
   const paginatedData = filteredData.slice(startIndex, endIndex); // slice filteredData based on the current page
 
   const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-
-  console.log(data);
-
+  
   return (
     <>
       <div className="overflow-x-auto">

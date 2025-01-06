@@ -26,8 +26,6 @@ const SelectRowSort = ({ data, setData, options = [] }) => {
       }
 
       // Log the values being compared for debugging
-      console.log(`Comparing: ${strA} with ${strB}`);
-
       return strA.localeCompare(strB);
     });
     

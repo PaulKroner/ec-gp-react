@@ -55,7 +55,6 @@ export const AuthProvider = ({ children }) => {
           setIsAuthenticated(true);
         }
       } catch (error) {
-        console.error("Token decoding failed:", error);
         localStorage.removeItem('token'); // Clear invalid token
         setIsAuthenticated(false);
         setUserRole('');
