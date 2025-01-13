@@ -87,6 +87,39 @@ const PostalAdress = ({ formData, setFormData }) => {
       };
     }
 
+    if (id === "housenumber") {
+      // House number validation: allow only numbers and max length of 5
+      const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+      if (numericValue.length > 5) return; // Prevent input longer than 5 digits
+
+      // Update postalData with the valid numeric value for housenumber
+      updatedPostalData = {
+        ...postalData,
+        [id]: numericValue,
+      };
+    } else {
+      updatedPostalData = {
+        ...postalData,
+        [id]: value,
+      };
+    };
+
+    if (id === "street" || id === "city") {
+      // Street validation: allow only letters
+      const letterValue = value.replace(/[^a-zA-ZäöüÄÖÜß\s]/g, ""); // Remove non-letter characters
+
+      // Update postalData with the valid letter value for street
+      updatedPostalData = {
+        ...postalData,
+        [id]: letterValue,
+      };
+    } else {
+      updatedPostalData = {
+        ...postalData,
+        [id]: value,
+      };
+    };
+
     setPostalData(updatedPostalData);
 
     // Concatenate the address into a single string, handling spaces and commas properly
