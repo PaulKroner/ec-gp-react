@@ -17,11 +17,7 @@ import { calculateExpirationDate } from "../../lib/utils";
 import ModalSubmitButton from "../ModalSubmitButton";
 import { InsertEmployee } from "../../api/DashboardPageAPI";
 import PostalAdress from "../PostalAdress";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../ui/popover"
+import React from "react";
 
 const AddEmployeeDialog = () => {
 
@@ -196,6 +192,27 @@ const AddEmployeeDialog = () => {
     }
   };
 
+  // Fields to dynamically render
+  const fields = [
+    { id: "name", label: "Name", placeholder: "Nachname", required: true },
+    { id: "vorname", label: "Vorname", placeholder: "Vorname", required: true },
+    { id: "email", label: "E-Mail", placeholder: "E-Mail", type: "email", required: true },
+    { id: "fz_eingetragen", label: "Führungszeugnis gültig ab", type: "date" },
+    { id: "fz_abgelaufen", label: "Führungszeugnis Ablaufdatum", type: "date", disabled: true },
+    { id: "fz_kontrolliert_first", label: "Führungszeugnis kontrolliert von", placeholder: "Max Mustermann" },
+    { id: "fz_kontrolliert_second", placeholder: "Max Mustermann" },
+    { id: "fz_kontrolliert_am", label: "Führungszeugnis kontrolliert am", type: "date" },
+    { id: "gs_eingetragen", label: "Grundlagenschulung gültig ab", type: "date" },
+    { id: "gs_erneuert", label: "Grundlagenschulung erneuert am", type: "date", disabled: gsDisabled },
+    { id: "gs_kontrolliert", label: "Grundlagenschulung kontrolliert von", placeholder: "Max Mustermann" },
+    { id: "us_eingetragen", label: "Upgradeschulung gültig ab", type: "date" },
+    { id: "us_abgelaufen", label: "Upgradeschulung Ablaufdatum", type: "date", disabled: true },
+    { id: "us_kontrolliert", label: "Upgradeschulung kontrolliert von", placeholder: "Max Mustermann" },
+    { id: "sve_eingetragen", label: "Selbstverpflichtungserklärung gültig ab", type: "date" },
+    { id: "sve_kontrolliert", label: "Selbstverpflichtungserklärung kontrolliert", placeholder: "Max Mustermann" },
+  ];
+
+
   return (
     <>
       <Dialog>
@@ -230,229 +247,80 @@ const AddEmployeeDialog = () => {
           </section>
 
           <form className="grid gap-3 py-4" onSubmit={validateAndInsertEmployee}>
-            {/* Name Field */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="name" className="after:content-['*'] after:ml-0.5 after:text-red-500">
-                Name
-              </Label>
-              <Input
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                className=""
-                placeholder="Nachname"
-                required
-              />
-            </div>
-            {/* Vorname Field */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="vorname" className="after:content-['*'] after:ml-0.5 after:text-red-500">Vorname</Label>
-              <Input
-                type="text"
-                id="vorname"
-                value={formData.vorname}
-                onChange={handleChange}
-                className=""
-                placeholder="Vorname"
-                required
-              />
-            </div>
-            {/* Email Field */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="email" className="after:content-['*'] after:ml-0.5 after:text-red-500">E-Mail</Label>
-              <Input
-                type="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                className=""
-                placeholder="E-Mail"
-                required
-              />
-            </div>
-            {/* Postadresse Field */}
-            <PostalAdress formData={formData} setFormData={setFormData} />
-            {/* Führungszeugnis Fields */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="fz_eingetragen">Führungszeugnis gültig ab</Label>
-              <Input
-                type="date"
-                id="fz_eingetragen"
-                value={formData.fz_eingetragen}
-                onChange={handleChange}
-                className=""
-              />
-              <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
-                <div className="flex flex-col">
-                  <div className="flex flex-row">
-                    <div>Klicken Sie auf</div>
-                    <span className="ml-1"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                      <path fillRule="evenodd" d="M4 1.75a.75.75 0 0 1 1.5 0V3h5V1.75a.75.75 0 0 1 1.5 0V3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2V1.75ZM4.5 6a1 1 0 0 0-1 1v4.5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-7Z" clipRule="evenodd" />
-                    </svg>
-                    <div>,</div>
-                    <span className="ml-1"></span>
-                  </div>
-                  <div>um ein Datum einzutragen</div>
+
+            {fields.map(({ id, label, ...rest }, index) => {
+              // Insert custom code at a specific position (e.g., after "fz_eingetragen")
+              if (id === "email") {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor={id} className={rest.required ? "after:content-['*'] after:ml-0.5 after:text-red-500" : ""}>
+                        {label}
+                      </Label>
+                      <Input id={id} value={formData[id] || ""} onChange={handleChange} {...rest} />
+
+                    </div>
+                    <PostalAdress formData={formData} setFormData={setFormData} />
+                  </React.Fragment>
+                );
+              };
+
+              if (id === "fz_eingetragen") {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor={id} className={rest.required ? "after:content-['*'] after:ml-0.5 after:text-red-500" : ""}>
+                        {label}
+                      </Label>
+                      <Input id={id} value={formData[id] || ""} onChange={handleChange} {...rest} />
+
+                      <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                        <div className="flex flex-col">
+                          <div className="flex flex-row">
+                            <div>Klicken Sie auf</div>
+                            <span className="ml-1"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
+                              <path fillRule="evenodd" d="M4 1.75a.75.75 0 0 1 1.5 0V3h5V1.75a.75.75 0 0 1 1.5 0V3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2V1.75ZM4.5 6a1 1 0 0 0-1 1v4.5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-7Z" clipRule="evenodd" />
+                            </svg>
+                            <div>,</div>
+                            <span className="ml-1"></span>
+                          </div>
+                          <div>um ein Datum einzutragen</div>
+                        </div>
+                      </span>
+                    </div>
+                  </React.Fragment>
+                );
+              }
+              if (id === "fz_kontrolliert_first") {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor={id} className={rest.required ? "after:content-['*'] after:ml-0.5 after:text-red-500" : ""}>
+                        {label}
+                      </Label>
+                      <Input id={id} value={formData[id] || ""} onChange={handleChange} {...rest} />
+                      <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                        <div className="flex flex-col">
+                          <div>Es müssen zwei Personen kontrolliert haben. Vor- und Nachname erforderlich!</div>
+                        </div>
+                      </span>
+                    </div>
+                  </React.Fragment>
+                );
+              }
+
+              // Render default field layout
+              return (
+                <div key={id} className="grid grid-cols-3 items-center gap-4">
+                  <Label htmlFor={id} className={rest.required ? "after:content-['*'] after:ml-0.5 after:text-red-500" : ""}>
+                    {label}
+                  </Label>
+                  <Input id={id} value={formData[id] || ""} onChange={handleChange} {...rest} />
                 </div>
-              </span>
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="fz_abgelaufen">Führungszeugnis Ablaufdatum</Label>
-              <Input
-                type="date"
-                id="fz_abgelaufen"
-                value={formData.fz_abgelaufen}
-                onChange={handleChange}
-                className=""
-                disabled
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="fz_kontrolliert">Führungszeugnis kontrolliert von</Label>
-              <Input
-                type="text"
-                id="fz_kontrolliert_first"
-                value={formData.fz_kontrolliert_first}
-                onChange={handleChange}
-                className=""
-                placeholder="Max Mustermann"
-              />
-              <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
-                <div className="flex flex-col">
-                  <div>Es müssen zwei Personen kontrolliert haben. Vor- und Nachname erforderlich!</div>
-                </div>
-              </span>
+              );
+            })}
 
-              <div className="col-span-1"></div>
-
-              <Input
-                type="text"
-                id="fz_kontrolliert_second"
-                value={formData.fz_kontrolliert_second}
-                onChange={handleChange}
-                className=""
-                placeholder="Max Mustermann"
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="fz_kontrolliert_am">Führungszeugnis kontrolliert am</Label>
-              <Input
-                type="date"
-                id="fz_kontrolliert_am"
-                value={formData.fz_kontrolliert_am}
-                onChange={handleChange}
-                className=""
-              />
-            </div>
-            {/* Grundlagenschulung Fields */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="gs_eingetragen">Grundlagenschulung gültig ab</Label>
-              <Input
-                type="date"
-                id="gs_eingetragen"
-                value={formData.gs_eingetragen}
-                onChange={handleChange}
-                className=""
-              />
-
-              <Popover>
-                <PopoverTrigger className="">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
-                  </svg></PopoverTrigger>
-                <PopoverContent className="text-sm">
-                  <span className="flex flex-row items-center">
-                    <div>Klicken sie auf  </div>
-                    <span className="ml-1"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="size-4">
-                      <path fillRule="evenodd" d="M4 1.75a.75.75 0 0 1 1.5 0V3h5V1.75a.75.75 0 0 1 1.5 0V3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2V1.75ZM4.5 6a1 1 0 0 0-1 1v4.5a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-7Z" clipRule="evenodd" />
-                    </svg>
-                    <div>, um</div>
-                  </span>
-                  <div>ein Datum einzugeben</div>
-                </PopoverContent>
-              </Popover>
-
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="gs_erneuert">Grundlagenschulung erneuert am</Label>
-              <Input
-                type="date"
-                id="gs_erneuert"
-                value={formData.gs_erneuert}
-                onChange={handleChange}
-                className=""
-                disabled={gsDisabled}
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="gs_kontrolliert">Grundlagenschulung kontrolliert von</Label>
-              <Input
-                type="text"
-                id="gs_kontrolliert"
-                value={formData.gs_kontrolliert}
-                onChange={handleChange}
-                className=""
-                placeholder="Max Mustermann"
-              />
-            </div>
-            {/* Upgradeschulung Fields */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="us_eingetragen">Upgradeschulung gültig ab</Label>
-              <Input
-                type="date"
-                id="us_eingetragen"
-                value={formData.us_eingetragen}
-                onChange={handleChange}
-                className=""
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="us_abgelaufen">Upgradeschulung Ablaufdatum</Label>
-              <Input
-                type="date"
-                id="us_abgelaufen"
-                value={formData.us_abgelaufen}
-                onChange={handleChange}
-                className=""
-                disabled
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="us_kontrolliert">Upgradeschulung kontrolliert von</Label>
-              <Input
-                type="text"
-                id="us_kontrolliert"
-                value={formData.us_kontrolliert}
-                onChange={handleChange}
-                className=""
-                placeholder="Max Mustermann"
-              />
-            </div>
-            {/* Selbstverpflichtungserklärung Fields */}
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="sve_eingetragen">Selbstverpflichtungserklärung gültig ab</Label>
-              <Input
-                type="date"
-                id="sve_eingetragen"
-                value={formData.sve_eingetragen}
-                onChange={handleChange}
-                className=""
-              />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="sve_kontrolliert" className="col-span-1">Selbstverpflichtungserklärung kontrolliert</Label>
-              <Input
-                type="text"
-                id="sve_kontrolliert"
-                value={formData.sve_kontrolliert}
-                onChange={handleChange}
-                className=""
-                placeholder="Max Mustermann"
-              />
-            </div>
             {/* Hauptamt */}
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="sve_kontrolliert" className="col-span-1">Hauptamt</Label>
