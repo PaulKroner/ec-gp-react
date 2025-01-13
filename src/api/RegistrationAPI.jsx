@@ -1,5 +1,4 @@
-import axios from "axios";
-import axiosInstance from "./axiosInstanceAPI";
+import axiosInstance from "./axiosInstance";
 import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const handleRegistration = async (event, email, password, role, name, vorname, toast, setLoading, navigate) => {
@@ -29,7 +28,7 @@ export const handleRegistration = async (event, email, password, role, name, vor
       toast({
         description: "Registrierung war erfolgreich!",
       });
-      navigate("/dashboard")
+      navigate("/dashboard");
     } else {
       // Handle errors
       toast({

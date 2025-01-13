@@ -38,7 +38,7 @@ export const deleteUserFromDB = async (id, toast, data, setData) => {
 export const updateUser = async (id, formData, setLoading, setData, toast, getDataRoles) => {
   setLoading(true);
   try {
-    const response = await axiosInstanceAPI.put(`/updateUser/${id}`, formData, {
+    const response = await axios.put(`http://localhost:8080/api/updateUser/${id}`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
