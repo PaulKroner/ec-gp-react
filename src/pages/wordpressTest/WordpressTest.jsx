@@ -7,7 +7,7 @@ const WordPressTest = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost/wordpress/index.php/wp-json/react-api/v1/get-data")
+      .get("http://localhost/wordpress/index.php/wp-json/react-api/v1/getdata")
       .then((response) => {
         setData(response.data);
         console.log(response.data); // Check if data is received
@@ -24,9 +24,9 @@ const WordPressTest = () => {
         <p>Fehler: {error}</p>
       ) : (
         <ul>
-          {data.map((item) => (
-            <li key={item.ID}>
-              <strong>{item.post_title}</strong> - {item.post_date}
+          {data.map((user) => (
+            <li key={user.ID}>
+              <strong>{user.name}</strong>
             </li>
           ))}
         </ul>
