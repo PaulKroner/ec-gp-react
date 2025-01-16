@@ -7,7 +7,7 @@ const WordPressTest = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost/wordpress/index.php/wp-json/react-api/v1/getdata")
+      .get("http://localhost/wordpress/index.php/wp-json/dashboard-api/getemployeedata")
       .then((response) => {
         setData(response.data);
         console.log(response.data); // Check if data is received

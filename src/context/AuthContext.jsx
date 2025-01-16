@@ -30,8 +30,8 @@ export const AuthContext = createContext({
 
 // Provider component
 export const AuthProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState("admin");
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);  // New state to track if the app is loading
   const timeoutRef = useRef(null); // Reference for the inactivity timer
 
