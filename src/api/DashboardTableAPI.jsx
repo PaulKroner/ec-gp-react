@@ -11,7 +11,11 @@ export const getData = async () => {
 
 export const deleteEmployee = async (id, data, setData, toast) => {
   try {
-    await axiosInstanceAPI.delete(`/delete/${id}`);
+    await axiosInstanceAPI.delete(`/deleteEmployee.php`, {
+      headers: { 'Content-Type': 'application/json' },
+      data: { id }
+    });
+
     setData(data.filter(employee => employee.id !== id));
     toast({
       description: "Mitarbeiter wurde erfolgreich gelöscht.",
