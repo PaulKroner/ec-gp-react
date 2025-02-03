@@ -1,9 +1,8 @@
 import axiosInstanceAPI from "./axiosInstanceAPI";
-import axiosWPinstance from "./axiosWPinstance";
 
 export const getData = async () => {
   try {
-    const response = await axiosWPinstance.get('/dashboard-api/getemployeedata');
+    const response = await axiosInstanceAPI.get('/dashboardTableAPI.php');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
