@@ -2,7 +2,7 @@ import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const getData = async () => {
   try {
-    const response = await axiosInstanceAPI.get('/dashboardTableAPI.php');
+    const response = await axiosInstanceAPI.get('/getEmployeesData.php');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
