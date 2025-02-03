@@ -40,17 +40,17 @@ export const deleteEmployee = async (id, data, setData, toast) => {
 export const updateEmployee = async (id, formData, setData, toast, setLoading) => {
   setLoading(true);
   try {
-    const response = await axiosInstanceAPI.put(`/update/${id}`, formData, {
+    const response = await axiosInstanceAPI.post(`/updateEmployee.php`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },
+      params: { id }, // id wird als Parameter übergeben
     });
 
     if (response.status === 200) {
       // function to update the table without refreshing the page
       const updatedData = await getData();
       setData(updatedData);
-      // Toast notification
       toast({
         description: "Mitarbeiter erfolgreich aktualisiert.",
       });
