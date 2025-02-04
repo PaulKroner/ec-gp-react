@@ -4,7 +4,7 @@ import axiosInstanceAPI from './axiosInstanceAPI';
 // Function to get users from the backend
 export const getDataRoles = async () => {
   try {
-    const response = await axiosInstanceAPI.get('/getDataRoles');
+    const response = await axiosInstanceAPI.get('/getUserData.php');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
@@ -13,7 +13,7 @@ export const getDataRoles = async () => {
 
 export const deleteUserFromDB = async (id, toast, data, setData) => {
   try {
-    await axiosInstanceAPI.delete(`/deleteUser/${id}`);
+    await axiosInstanceAPI.delete(`/deleteUser.php?id=${id}`);
     setData(data.filter(employee => employee.id !== id));
     toast({
       description: "Mitarbeiter wurde erfolgreich gelöscht.",
