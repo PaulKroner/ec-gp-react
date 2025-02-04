@@ -11,9 +11,8 @@ export const getData = async () => {
 
 export const deleteEmployee = async (id, data, setData, toast) => {
   try {
-    await axiosInstanceAPI.delete(`/deleteEmployee.php`, {
-      headers: { 'Content-Type': 'application/json' },
-      data: { id }
+    await axiosInstanceAPI.delete(`/deleteEmployee.php?id=${id}`, {
+      headers: { 'Content-Type': 'application/json' }
     });
 
     setData(data.filter(employee => employee.id !== id));
