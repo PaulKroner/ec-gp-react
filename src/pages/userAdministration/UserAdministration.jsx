@@ -52,6 +52,7 @@ const UserAdministration = () => {
       }
     };
     fetchData();
+
   }, []);
 
   return (
@@ -87,7 +88,7 @@ const UserAdministration = () => {
                     <td className="border border-slate-300 sticky-col">{row.name || 'kein Name'}</td>
                     <td className="border border-slate-300">{row.vorname || 'kein Vorname'}</td>
                     <td className="border border-slate-300">{row.email || 'keine E-Mail'}</td>
-                    <td className="border border-slate-300">{getRoleString(row.role) || 'keine Rolle'}</td>
+                    <td className="border border-slate-300">{getRoleString(row.role_id) || 'keine Rolle'}</td>
                     {userRole === 1 && isAuthenticated === true ? (
                       <>
                         <td className="border-l border-b border-slate-300" id="deleteDialotTD"><DeleteUser data={data} row={row} setData={setData} /></td>
