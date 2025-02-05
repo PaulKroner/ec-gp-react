@@ -1,44 +1,56 @@
-import axios from "axios";
-import axiosInstance from "./axiosInstance";
+import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const handleLogin = async (event, email, password, setLoading, login, toast, navigate) => {
   event.preventDefault();
-  setLoading(true); // show loading spinner
+  setLoading(true); // Show loading spinner
 
   try {
-    const res = await axiosInstance.post('/login', {
-      email, password
-    });
+    const res = await axiosInstanceAPI.post('/login.php', { email, password });
 
-    if (res.status === 200) { // successful login
-      const token = res.data.token; // Get the token from the response
+    console.log('API Response:', res.data);
+
+    // Ensure response is valid and contains a token
+    if (res.status === 200 && res.data.success && res.data.token) {
+      const token = res.data.token;
+      const roleId = res.data.role_id || null;
 
       // Save the token in localStorage
       localStorage.setItem('token', token);
 
-      // Use the context's login function to update role and authentication status
-      login(token);
-
-      // Redirect to the next page
+      // Use context's login function to update authentication status
+      login(token, roleId);
+      
+      // Redirect to the dashboard
       navigate("/dashboard");
+
+      // Show success message
       toast({
         description: "Login war erfolgreich!",
       });
+    } else {
+      // Prevent success message when token is null
+      toast({
+        variant: "destructive",
+        description: "Login fehlgeschlagen: " + res.data.message,
+      });
+      throw new Error(res.data.message || "Login fehlgeschlagen");
+
     }
   } catch (error) {
+    console.error("Login Fehler:", error.response?.status, error.response?.data || error.message);
+
     if (error.response) {
-      // login failed or other server error
       toast({
         variant: "destructive",
-        description: error.response.data.message || 'Login fehlgeschlagen',
+        description: error.response.data.message || "Login fehlgeschlagen",
       });
     } else {
-      // something else failed
       toast({
         variant: "destructive",
-        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut: das Backend ist nicht erreichbar.",
+        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
       });
     }
+  } finally {
+    setLoading(false); // Hide loading spinner
   }
-  setLoading(false);
 };

@@ -30,7 +30,7 @@ export const AuthContext = createContext({
 
 // Provider component
 export const AuthProvider = ({ children }) => {
-  const [userRole, setUserRole] = useState("admin");
+  const [userRole, setUserRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [loading, setLoading] = useState(true);  // New state to track if the app is loading
   const timeoutRef = useRef(null); // Reference for the inactivity timer
@@ -39,36 +39,26 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('token');
 
     if (token) {
-      try {
-        const decodedToken = JSON.parse(atob(token.split('.')[1]));
-
-        // Check for expiration
-        const currentTime = Date.now() / 1000; // Get current time in seconds
-        if (decodedToken.exp < currentTime) {
-          // Token is expired
-          localStorage.removeItem('token'); // Clear expired token
-          setIsAuthenticated(false);
-          setUserRole('');
-        } else {
-          // Token is valid
-          setUserRole(decodedToken.role_id);
-          setIsAuthenticated(true);
-        }
-      } catch (error) {
-        localStorage.removeItem('token'); // Clear invalid token
-        setIsAuthenticated(false);
-        setUserRole('');
-      }
+      // Token exists, assume the user is authenticated
+      setIsAuthenticated(true);
+      // We won't decode the token, just store it
+      // You can also use the role_id from API response here if needed (during login)
+    } else {
+      setIsAuthenticated(false);
+      setUserRole('');
     }
     setLoading(false);
   }, []);
 
-  const login = (token) => {
-    const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    localStorage.setItem('token', token);  // Store token in localStorage
-    setUserRole(decodedToken.role_id);
+  const login = (token, roleId) => {
+    // Store token in localStorage
+    localStorage.setItem('token', token);
+  
+    // Directly set the role from API response (since we can't decode it)
+    setUserRole(roleId);
     setIsAuthenticated(true);
   };
+  
 
   const logout = () => {
     localStorage.removeItem('token');
