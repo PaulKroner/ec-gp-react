@@ -48,7 +48,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
   setLoading(true); // show loading spinner
   try {
     checkAccordance(); // throw error if passwords don't match
-    const res = await axiosInstanceAPI.post('/resetPassword', {
+    const res = await axiosInstanceAPI.post('/resetPassword.php', {
       token, // use the token from the URL
       newPassword: password,
     });
@@ -57,7 +57,6 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
       toast({
         description: "Passwort zurücksetzen war erfolgreich!",
       });
-      // router.push("/"); // redirect to homepage
       navigate("/");
     }
   } catch (error) {
@@ -85,7 +84,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
 export const handleResetRequest = async (event, email, toast, setLoading) => {
   event.preventDefault();
   setLoading(true);
-  await axiosInstanceAPI.post('/sendResetPasswordEmail', {
+  await axiosInstanceAPI.post('/sendResetPasswordEmail.php', {
     email,
   });
   toast({
