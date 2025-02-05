@@ -9,7 +9,7 @@ import {
 const SelectRoleRegistration = ({ formData, setFormData }) => {
   return (
     <Select
-      value={formData.role.toString()}
+      value={formData?.role?.toString() || ""}
       onValueChange={(value) => setFormData((prev) => ({ ...prev, role: parseInt(value, 10) }))}
     >
       <SelectTrigger className="w-full">

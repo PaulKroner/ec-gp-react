@@ -130,9 +130,7 @@ const EditUserDialog = ({ data, setData, row }) => {
               {/* Role Field */}
               <div className="grid grid-cols-3 items-center gap-4">
                 <Label htmlFor="role">Rolle</Label>
-                <SelectRoleRegistration
-                  setRole={(value) => setFormData({ ...formData, role: value })}
-                />
+                <SelectRoleRegistration formData={formData} setFormData={setFormData} />
               </div>
             <DialogFooter>
               <DialogClose asChild>
