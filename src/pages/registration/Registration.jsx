@@ -19,11 +19,14 @@ import { Input } from '../../components/ui/input';
 import { Label } from "../../components/ui/label";
 
 const Registration = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [vorname, setVorname] = useState('');
-  const [role, setRole] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    name: '',
+    vorname: '',
+    role: ''
+  });
+
   const [loading, setLoading] = useState(false);
   const [passwordValidations, setPasswordValidations] = useState({
     minLength: false,
@@ -59,23 +62,10 @@ const Registration = () => {
       newValue = value.toLowerCase();
     }
 
-    // Update the state
-    switch (id) {
-      case "email":
-        setEmail(newValue);
-        break;
-      case "password":
-        setPassword(newValue);
-        break;
-      case "name":
-        setName(newValue);
-        break;
-      case "vorname":
-        setVorname(newValue);
-        break;
-      default:
-        break;
-    }
+    setFormData(prevState => ({
+      ...prevState,
+      [id]: newValue
+    }));
   };
 
   // Function to validate the password as user types
@@ -107,45 +97,39 @@ const Registration = () => {
             </svg>
           </button>
 
-          <form onSubmit={(event) => handleRegistration(event, email, password, role, name, vorname, toast, setLoading, navigate)} className="flex flex-col justify-center items-center gap-4">
+          <form onSubmit={(event) => handleRegistration(event, formData, toast, setLoading, navigate)} className="flex flex-col justify-center items-center gap-4">
 
             <div className="flex justify-center items-center font-extrabold headline">
               Registrierung
             </div>
 
+
             <div className="w-64 flex flex-col gap-2">
-              <Label htmlFor="email" className="">
-                E-Mail-Adresse
-              </Label>
+              <Label htmlFor="email">E-Mail-Adresse</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 placeholder="email@beispiel.com"
-                value={email}
+                value={formData.email}
                 onChange={handleChange}
-                className=""
-                aria-label="E-Mail"
+                aria-label="Email"
                 required
               />
             </div>
 
             <div className="w-64 flex flex-col gap-2">
-              <Label htmlFor="password" className="">
-                Passwort
-              </Label>
+              <Label htmlFor="password">Passwort</Label>
               <Input
                 id="password"
-                name="password"
                 type="password"
                 placeholder="********"
-                value={password}
-                onChange={(e) => { handleChange(e); validatePassword(e.target.value); }}
-                className=""
-                aria-label="Password"
-                autoComplete="password"
-                required
-              />
+                value={formData.password}
+                onChange={(e) => {
+                  handleChange(e);
+                  validatePassword(e.target.value);
+                }}
+                required />
             </div>
 
             <div className="mt-2 text-sm block w-64">
@@ -198,7 +182,7 @@ const Registration = () => {
                 name="name"
                 type="text"
                 placeholder="Nachname"
-                value={name}
+                value={formData.name}
                 onChange={handleChange}
                 className=""
                 aria-label="name"
@@ -210,17 +194,17 @@ const Registration = () => {
               <Label htmlFor="email" className="">
                 Vorname
               </Label>
-                <Input
-                  id="vorname"
-                  name="vorname"
-                  type="text"
-                  placeholder="Vorname"
-                  value={vorname}
-                  onChange={handleChange}
-                  className=""
-                  aria-label="vorname"
-                  required
-                />
+              <Input
+                id="vorname"
+                name="vorname"
+                type="text"
+                placeholder="Vorname"
+                value={formData.vorname}
+                onChange={handleChange}
+                className=""
+                aria-label="vorname"
+                required
+              />
             </div>
 
             <div className="w-64 flex flex-col gap-2">
@@ -228,7 +212,7 @@ const Registration = () => {
                 Rolle / Berechtigung
               </label>
               <div className="">
-                <SelectRoleRegistration setRole={setRole} />
+                <SelectRoleRegistration formData={formData} setFormData={setFormData} />
               </div>
             </div>
 
