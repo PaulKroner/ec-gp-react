@@ -9,7 +9,6 @@ import { Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ResetPasswordRequest from './pages/registration/resetPasswordRequest/ResetPasswordRequest';
 import ResetPassword from './pages/registration/resetPassword/[token]/ResetPassword';
-import FetchUsers from './pages/text';
 
 function App() {
   return (
@@ -27,7 +26,6 @@ function App() {
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/registration/resetPasswordRequest" element={<ResetPasswordRequest />} />
         <Route path="/registration/resetPassword/:token" element={<ResetPassword />} />
-        <Route path="/test" element={<FetchUsers />} />
       </Routes>
       </AuthProvider>
     </>
