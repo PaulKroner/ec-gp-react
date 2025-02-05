@@ -1,12 +1,11 @@
-import axiosInstance from "./axiosInstance";
 import axiosInstanceAPI from "./axiosInstanceAPI";
 
-export const handleRegistration = async (event, email, password, role, name, vorname, toast, setLoading, navigate) => {
+export const handleRegistration = async (event, formData, toast, setLoading, navigate) => {
   event.preventDefault();
-  const lowerCaseEmail = email.trim().toLowerCase();
+  // const lowerCaseEmail = email.trim().toLowerCase();
   setLoading(true);
 
-  if (!role) {
+  if (!formData.role) {
     toast({
       variant: "destructive",
       description: "Bitte wählen Sie eine Rolle",
@@ -15,20 +14,18 @@ export const handleRegistration = async (event, email, password, role, name, vor
   }
 
   try {
-    const response = await axiosInstance.post('/register', {
-      email: lowerCaseEmail, password, role, name, vorname
-    }, {
+    const response = await axiosInstanceAPI.post('/registerUser.php', formData, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       // Successful registration
       toast({
         description: "Registrierung war erfolgreich!",
       });
-      navigate("/dashboard");
+      // navigate("/dashboard");
     } else {
       // Handle errors
       toast({
@@ -46,7 +43,7 @@ export const handleRegistration = async (event, email, password, role, name, vor
   setLoading(false);
 };
 
-export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading ) => {
+export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading) => {
   event.preventDefault();
   setLoading(true); // show loading spinner
   try {
