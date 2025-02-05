@@ -176,17 +176,18 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                   </>)}
 
                   <td className="border border-slate-300">{row.hauptamt ? ("Ja") : ("Nein")}</td>
-
-                  {userRole === 1 && isAuthenticated === true ? (
-                    <td className="border-l border-b border-slate-300" id="deleteDialogTD"><DeleteEmployee data={data} row={row} setData={setData} /></td>
-                  ) : (
-                    <></>
-                  )}
+                  
                   {(userRole === 1 || userRole === 2) && isAuthenticated === true ? (
                     <td className="border-r border-b border-slate-300 sticky" id="editDialogTD"><EditDialog data={data} setData={setData} showNachweise={showNachweise} row={row} /></td>
                   ) : (
                     <></>
                   )}
+                  {userRole === 1 && isAuthenticated === true ? (
+                    <td className="border-l border-b border-slate-300" id="deleteDialogTD"><DeleteEmployee data={data} row={row} setData={setData} /></td>
+                  ) : (
+                    <></>
+                  )}
+
 
                 </tr>
               ))
