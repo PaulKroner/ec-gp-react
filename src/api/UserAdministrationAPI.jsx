@@ -1,4 +1,3 @@
-import axios from 'axios';
 import axiosInstanceAPI from './axiosInstanceAPI';
 
 // Function to get users from the backend
