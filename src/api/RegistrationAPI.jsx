@@ -25,7 +25,7 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
       toast({
         description: "Registrierung war erfolgreich!",
       });
-      // navigate("/dashboard");
+      navigate("/dashboard");
     } else {
       // Handle errors
       toast({
