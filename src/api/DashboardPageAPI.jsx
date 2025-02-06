@@ -3,6 +3,7 @@ import axiosInstanceAPI from "./axiosInstanceAPI";
 export const InsertEmployee = async (transformedFormData, toast, setLoading) => {
   setLoading(true);
 
+  alert(transformedFormData.vorname);
 
   try {
     const response = await axiosInstanceAPI.post('/insertEmployee.php', transformedFormData, {
@@ -12,16 +13,18 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
     });
 
     // Check if fz_eingetragen is empty before sending the email
-    // if (transformedFormData.fz_eingetragen === null) {
-    //   await axiosInstanceAPI.post('sendEmailRequestFZ', {
-    //     email: transformedFormData.email,
-    //     name: transformedFormData.name
-    //   }, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-    // }
+    if (transformedFormData.fz_eingetragen === null) {
+      await axiosInstanceAPI.post('/sendEmailRequestFZ.php', {
+        email: transformedFormData.email,
+        name: transformedFormData.name,
+        vorname: transformedFormData.vorname
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
     window.location = "/dashboard"; // workaround to refresh the page
     toast({
       description: "Neuen Mitarbeiter erfolgreich hinzugefügt.",
