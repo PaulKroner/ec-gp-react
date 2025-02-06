@@ -57,7 +57,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
       toast({
         description: "Passwort zurücksetzen war erfolgreich!",
       });
-      navigate("/");
+      navigate("/login");
     }
   } catch (error) {
     if (error.message === "Passwords do not match") {
