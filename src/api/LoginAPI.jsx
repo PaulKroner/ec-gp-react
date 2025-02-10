@@ -16,9 +16,9 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
 
       // Save the token in localStorage
       localStorage.setItem('token', token);
-
+      const expirationTime = Math.floor(Date.now() / 1000) + (2 * 24 * 60 * 60); // 2 days from now in seconds
       // Use context's login function to update authentication status
-      login(token, roleId);
+      login(token, roleId, expirationTime);
       
       // Redirect to the dashboard
       navigate("/dashboard");

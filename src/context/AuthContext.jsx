@@ -11,7 +11,7 @@
  * @property {function} logout - Function to log out a user and clear the authentication token.
 */
 
-import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
 export const UserRole = {
   "Admin": 1,
@@ -31,37 +31,49 @@ export const AuthContext = createContext({
 // Provider component
 export const AuthProvider = ({ children }) => {
   const [userRole, setUserRole] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);  // New state to track if the app is loading
-  const timeoutRef = useRef(null); // Reference for the inactivity timer
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-
-    if (token) {
-      // Token exists, assume the user is authenticated
-      setIsAuthenticated(true);
-      // We won't decode the token, just store it
-      // You can also use the role_id from API response here if needed (during login)
-    } else {
-      setIsAuthenticated(false);
-      setUserRole('');
-    }
+    const expirationTime = localStorage.getItem('tokenExpiration');
+    const storedRoleId = localStorage.getItem('roleId');
+  
+    const checkAuthentication = () => {
+      const currentTime = Date.now() / 1000; // Convert to seconds
+      if (token && expirationTime) {
+        if (currentTime > expirationTime) {
+          logout();
+        } else {
+          setIsAuthenticated(true);
+          setUserRole(storedRoleId ? Number(storedRoleId) : ''); // Convert roleId to number
+        }
+      } else {
+        setIsAuthenticated(false);
+        setUserRole('');
+      }
+    };
+  
+    checkAuthentication();
     setLoading(false);
   }, []);
-
-  const login = (token, roleId) => {
-    // Store token in localStorage
-    localStorage.setItem('token', token);
   
-    // Directly set the role from API response (since we can't decode it)
+
+  const login = (token, roleId, expirationTime) => {
+    // Store token and expiration time in localStorage
+    localStorage.setItem('token', token);
+    localStorage.setItem('tokenExpiration', expirationTime);  // Store expiration time
+    localStorage.setItem('roleId', roleId); // Store roleId
+
     setUserRole(roleId);
     setIsAuthenticated(true);
   };
-  
+
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('tokenExpiration');
+    localStorage.removeItem('roleId');
     setUserRole('');
     setIsAuthenticated(false);
   };

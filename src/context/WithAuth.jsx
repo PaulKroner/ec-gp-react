@@ -25,7 +25,7 @@ const withAuth = (WrappedComponent, requiredRole = UserRole.User) => {
           navigate('/login', { state: { from: location } });
         }
         if (userRole > requiredRole) {
-          navigate('/not-found');
+          navigate('/');
         }
       }
     }, [loading, isAuthenticated]);
