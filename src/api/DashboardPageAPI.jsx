@@ -3,10 +3,8 @@ import axiosInstanceAPI from "./axiosInstanceAPI";
 export const InsertEmployee = async (transformedFormData, toast, setLoading) => {
   setLoading(true);
 
-  alert(transformedFormData.vorname);
-
   try {
-    const response = await axiosInstanceAPI.post('/insertEmployee.php', transformedFormData, {
+    const response = await axiosInstanceAPI.post('/dashboard/insertEmployee.php', transformedFormData, {
       headers: {
         'Content-Type': 'application/json',
       },

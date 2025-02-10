@@ -5,7 +5,7 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
   setLoading(true); // Show loading spinner
 
   try {
-    const res = await axiosInstanceAPI.post('/login.php', { email, password });
+    const res = await axiosInstanceAPI.post('/login/login.php', { email, password });
 
     console.log('API Response:', res.data);
 

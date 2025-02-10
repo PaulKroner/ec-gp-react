@@ -2,7 +2,7 @@ import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const getData = async () => {
   try {
-    const response = await axiosInstanceAPI.get('/getEmployeesData.php');
+    const response = await axiosInstanceAPI.get('/dashboard/getEmployeesData.php');
     return response.data; // Return the fetched data
   } catch (error) {
     return null; // Return null or handle the error appropriately
@@ -11,7 +11,7 @@ export const getData = async () => {
 
 export const deleteEmployee = async (id, data, setData, toast) => {
   try {
-    await axiosInstanceAPI.delete(`/deleteEmployee.php?id=${id}`, {
+    await axiosInstanceAPI.delete(`/dashboard/deleteEmployee.php?id=${id}`, {
       headers: { 'Content-Type': 'application/json' }
     });
 
@@ -39,7 +39,7 @@ export const deleteEmployee = async (id, data, setData, toast) => {
 export const updateEmployee = async (id, formData, setData, toast, setLoading) => {
   setLoading(true);
   try {
-    const response = await axiosInstanceAPI.post(`/updateEmployee.php`, formData, {
+    const response = await axiosInstanceAPI.post(`/dashboard/updateEmployee.php`, formData, {
       headers: {
         'Content-Type': 'application/json',
       },

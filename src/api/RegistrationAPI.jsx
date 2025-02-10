@@ -2,7 +2,6 @@ import axiosInstanceAPI from "./axiosInstanceAPI";
 
 export const handleRegistration = async (event, formData, toast, setLoading, navigate) => {
   event.preventDefault();
-  // const lowerCaseEmail = email.trim().toLowerCase();
   setLoading(true);
 
   if (!formData.role) {
@@ -14,7 +13,7 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
   }
 
   try {
-    const response = await axiosInstanceAPI.post('/registerUser.php', formData, {
+    const response = await axiosInstanceAPI.post('/registration/registerUser.php', formData, {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -48,7 +47,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
   setLoading(true); // show loading spinner
   try {
     checkAccordance(); // throw error if passwords don't match
-    const res = await axiosInstanceAPI.post('/resetPassword.php', {
+    const res = await axiosInstanceAPI.post('/registration/resetPassword.php', {
       token, // use the token from the URL
       newPassword: password,
     });
