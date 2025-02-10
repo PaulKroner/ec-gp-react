@@ -346,6 +346,11 @@ const AddEmployeeDialog = () => {
               </div>
             </div>
             <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  abbrechen
+                </Button>
+              </DialogClose>
               <Button className="px-0" type="submit">
                 <ModalSubmitButton text="Mitarbeiter hinzufügen" loading={loading} />
               </Button>

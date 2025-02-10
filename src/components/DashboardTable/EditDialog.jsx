@@ -479,6 +479,11 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
             </div>
             <DialogFooter>
               <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  abbrechen
+                </Button>
+              </DialogClose>
+              <DialogClose asChild>
                 <Button className="px-0" type="submit">
                   <ModalSubmitButton text="Änderungen speichern" loading={loading} />
                 </Button>

@@ -91,48 +91,53 @@ const EditUserDialog = ({ data, setData, row }) => {
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={validateAndUpdateUser} className="grid gap-3 py-4">
-              {/* Name Field */}
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="name">Name</Label>
-                <Input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className=""
-                  placeholder="Name"
-                />
-              </div>
-              {/* Vorname Field */}
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="vorname">Vorname</Label>
-                <Input
-                  type="text"
-                  id="vorname"
-                  value={formData.vorname}
-                  onChange={handleChange}
-                  className=""
-                  placeholder="Vorname"
-                />
-              </div>
-              {/* Email Field */}
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="email">E-Mail</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className=""
-                  placeholder="E-Mail"
-                />
-              </div>
-              {/* Role Field */}
-              <div className="grid grid-cols-3 items-center gap-4">
-                <Label htmlFor="role">Rolle</Label>
-                <SelectRoleRegistration formData={formData} setFormData={setFormData} />
-              </div>
+            {/* Name Field */}
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                type="text"
+                id="name"
+                value={formData.name}
+                onChange={handleChange}
+                className=""
+                placeholder="Name"
+              />
+            </div>
+            {/* Vorname Field */}
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="vorname">Vorname</Label>
+              <Input
+                type="text"
+                id="vorname"
+                value={formData.vorname}
+                onChange={handleChange}
+                className=""
+                placeholder="Vorname"
+              />
+            </div>
+            {/* Email Field */}
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="email">E-Mail</Label>
+              <Input
+                type="email"
+                id="email"
+                value={formData.email}
+                onChange={handleChange}
+                className=""
+                placeholder="E-Mail"
+              />
+            </div>
+            {/* Role Field */}
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="role">Rolle</Label>
+              <SelectRoleRegistration formData={formData} setFormData={setFormData} />
+            </div>
             <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  abbrechen
+                </Button>
+              </DialogClose>
               <DialogClose asChild>
                 <Button className="px-0" type="submit">
                   <ModalSubmitButton text="Änderungen speichern" loading={loading} />
