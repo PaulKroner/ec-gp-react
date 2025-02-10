@@ -72,19 +72,19 @@ const PostalAdress = ({ formData, setFormData }) => {
 
     // ZIP code validation: allow only numbers and max length of 5
     if (id === "zip") {
-      const numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
-      if (numericValue.length > 5) return; // Prevent input longer than 5 digits
-
-      // Update postalData with the valid numeric value for zip
-      updatedPostalData = {
-        ...postalData,
+      let numericValue = value.replace(/\D/g, ""); // Remove non-numeric characters
+  
+      if (numericValue.length > 5) {
+        numericValue = numericValue.slice(0, 5); // Limit to 5 digits
+      }
+  
+      // Set state with the cleaned numeric value
+      setPostalData((prevData) => ({
+        ...prevData,
         [id]: numericValue,
-      };
-    } else {
-      updatedPostalData = {
-        ...postalData,
-        [id]: value,
-      };
+      }));
+  
+      return; // Prevent further processing
     }
 
     if (id === "housenumber") {
