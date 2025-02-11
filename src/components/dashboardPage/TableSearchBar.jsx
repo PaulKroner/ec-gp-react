@@ -2,7 +2,6 @@ import { Input } from "../ui/input";
 
 const TableSearchBar = ({ searchQuery, setSearchQuery }) => {
   return (
-    <div className="">
       <Input
         type="text"
         placeholder="Suche"
@@ -10,7 +9,6 @@ const TableSearchBar = ({ searchQuery, setSearchQuery }) => {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
-    </div>
   );
 }
 

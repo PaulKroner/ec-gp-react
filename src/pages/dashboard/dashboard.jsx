@@ -63,17 +63,17 @@ const Dashboard = () => {
           <ColumnSelection showNachweise={showNachweise} handleToggle={handleToggle} />
 
           {/* table functionality container */}
-          <div className="flex gap-6 w-full flex-col sm:gap-4 sm:flex-row items-center">
+          <div className="flex gap-6 w-full flex-col sm:gap-4 smc:flex-row items-center">
+
             {/* Number of Rows */}
-            <div className="sm:flex-shrink-0">
-              <div className="flex flex-row gap-4">
-                <SelectNumberRows rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
-                <SelectRowSort data={data} setData={setData} options={options} />
-              </div>
+            <div className="flex flex-row gap-4 justify-center xsc:justify-start w-full">
+              <SelectNumberRows rowsPerPage={rowsPerPage} setRowsPerPage={setRowsPerPage} />
+              <SelectRowSort data={data} setData={setData} options={options} />
             </div>
 
             {/* Searchbar */}
-            <div className="flex gap-6 sm:gap-4 flex-col sm:flex-row sm:ml-auto">
+            {/* <div className="flex gap-6 flex-col justify-self-center xsc:justify-start w-full sm:flex-row sm:gap-4"> */}
+            <div className="flex flex-col gap-6 smc:flex-row xsc:justify-start md:justify-end sm:w-full">
               <TableSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
               {/* Add new employee */}
               {userRole === 1 || userRole === 2 ? (

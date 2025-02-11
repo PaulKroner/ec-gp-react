@@ -11,6 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import SubmitButton from "../../components/SubmitButton";
 import { handleLogin } from "../../api/LoginAPI";
 import { useNavigate } from "react-router-dom";
+import eclogo from "../../lib/Ec11.svg.png";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -29,11 +30,18 @@ const Login = () => {
 
   return (
     <div className='flex min-h-screen flex-col items-center justify-center p-24 bg-ec '>
-      <div className="bg-white h-full rounded-2xl p-12">
+      <div className="bg-white h-full rounded-2xl p-12 login-container">
         <form onSubmit={(event) => handleLogin(event, email, password, setLoading, login, toast, navigate)} className="flex flex-col justify-center items-center gap-6">
-          <div className="flex justify-center items-center font-extrabold headline">
-            Login
+          
+          <div className="flex gap-4 flex-col items-center">
+            <div className="w-full flex justify-center">
+              <img src={eclogo} alt="EC-Logo" className="w-16 h-16"/>
+            </div>
+            <div className="flex justify-center items-center font-extrabold text-2xl text-center">
+              Gewaltprävention Login
+            </div>
           </div>
+
 
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
