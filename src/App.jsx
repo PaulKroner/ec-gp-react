@@ -17,16 +17,19 @@ function App() {
         {/* <Dashboard /> */}
       </main>
       <AuthProvider>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/userAdministration" element={<UserAdministration />} />
-        <Route path="/not-found" element={<NotFoundPage />} />
-        <Route path="/registration/resetPasswordRequest" element={<ResetPasswordRequest />} />
-        <Route path="/registration/resetPassword/:token" element={<ResetPassword />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/userAdministration" element={<UserAdministration />} />
+          <Route path="/not-found" element={<NotFoundPage />} />
+          <Route path="/registration/resetPasswordRequest" element={<ResetPasswordRequest />} />
+          <Route path="/registration/resetPassword/:token" element={<ResetPassword />} />
+
+          {/* Catch all unknown routes and redirect to NotFoundPage */}
+          <Route path="*" element={<Navigate to="/not-found" replace />} />
+        </Routes>
       </AuthProvider>
     </>
   );

@@ -28,7 +28,7 @@ const withAuth = (WrappedComponent, requiredRole = UserRole.User) => {
           navigate('/');
         }
       }
-    }, [loading, isAuthenticated]);
+    }, [loading, isAuthenticated, userRole, requiredRole]);
 
     if (loading) {
       return <div><LoadingContainer /></div>;
