@@ -11,7 +11,7 @@
  * @property {function} logout - Function to log out a user and clear the authentication token.
 */
 
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
 
 export const UserRole = {
   "Admin": 1,
@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
   const [userRole, setUserRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);  // New state to track if the app is loading
+  const timeoutRef = useRef(null); // Reference for the inactivity timer
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -78,29 +79,29 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
   };
 
-  // const resetTimer = () => {
-  //   if (timeoutRef.current) {
-  //     clearTimeout(timeoutRef.current);
-  //   }
-  //   // Set a new timeout for 10 seconds
-  //   timeoutRef.current = setTimeout(() => {
-  //     logout(); // Call logout after 5 minutes of inactivity
-  //   }, 300000);
-  // };
+  const resetTimer = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    // Set a new timeout for 10 seconds
+    timeoutRef.current = setTimeout(() => {
+      logout(); // Call logout after 5 minutes of inactivity
+    }, 30000);
+  };
 
-  // useEffect(() => {
-  //   // Event listeners for detecting user activity
-  //   const events = ['mousemove', 'keydown', 'click'];
-  //   events.forEach(event => window.addEventListener(event, resetTimer));
+  useEffect(() => {
+    // Event listeners for detecting user activity
+    const events = ['mousemove', 'keydown', 'click'];
+    events.forEach(event => window.addEventListener(event, resetTimer));
 
-  //   return () => {
-  //     // Cleanup event listeners on unmount
-  //     events.forEach(event => window.removeEventListener(event, resetTimer));
-  //     if (timeoutRef.current) {
-  //       clearTimeout(timeoutRef.current); // Clear timeout on unmount
-  //     }
-  //   };
-  // }, [resetTimer]);
+    return () => {
+      // Cleanup event listeners on unmount
+      events.forEach(event => window.removeEventListener(event, resetTimer));
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current); // Clear timeout on unmount
+      }
+    };
+  }, [resetTimer]);
 
   return (
     <AuthContext.Provider value={{ userRole, setUserRole, isAuthenticated, login, logout, loading }}>
