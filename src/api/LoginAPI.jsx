@@ -10,15 +10,11 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
     console.log('API Response:', res.data);
 
     // Ensure response is valid and contains a token
-    if (res.status === 200 && res.data.success && res.data.token) {
+    if (res.status === 200 && res.data.token) {
       const token = res.data.token;
-      const roleId = res.data.role_id || null;
-
-      // Save the token in localStorage
       localStorage.setItem('token', token);
-      const expirationTime = Math.floor(Date.now() / 1000) + (2 * 24 * 60 * 60); // 2 days from now in seconds
-      // Use context's login function to update authentication status
-      login(token, roleId, expirationTime);
+
+      login(token); // Store JWT properly
       
       // Redirect to the dashboard
       navigate("/dashboard");
@@ -42,7 +38,7 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
     if (error.response) {
       toast({
         variant: "destructive",
-        description: error.response.data.message || "Login fehlgeschlagen",
+        description: error.response?.data.message || "Login fehlgeschlagen",
       });
     } else {
       toast({

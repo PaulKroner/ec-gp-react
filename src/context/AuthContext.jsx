@@ -12,6 +12,7 @@
 */
 
 import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 export const UserRole = {
   "Admin": 1,
@@ -37,43 +38,38 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const expirationTime = localStorage.getItem('tokenExpiration');
-    const storedRoleId = localStorage.getItem('roleId');
-  
+    const roleId = localStorage.getItem("roleId");
+
     const checkAuthentication = () => {
-      const currentTime = Date.now() / 1000; // Convert to seconds
-      if (token && expirationTime) {
-        if (currentTime > expirationTime) {
-          logout();
-        } else {
+      if (token) {
           setIsAuthenticated(true);
-          setUserRole(storedRoleId ? Number(storedRoleId) : ''); // Convert roleId to number
+          setUserRole(roleId ? Number(roleId) : ''); // Convert roleId to number
         }
-      } else {
+       else {
         setIsAuthenticated(false);
         setUserRole('');
+        console.log("hier stimmt doch auch was nicht")
       }
     };
-  
+
     checkAuthentication();
     setLoading(false);
   }, []);
-  
 
-  const login = (token, roleId, expirationTime) => {
+
+  const login = (token) => {
     // Store token and expiration time in localStorage
+    const decodedToken = jwtDecode(token);
     localStorage.setItem('token', token);
-    localStorage.setItem('tokenExpiration', expirationTime);  // Store expiration time
-    localStorage.setItem('roleId', roleId); // Store roleId
+    localStorage.setItem('roleId', decodedToken.role_id); // Store roleId
 
-    setUserRole(roleId);
+    setUserRole(decodedToken.role_id);
     setIsAuthenticated(true);
   };
 
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('tokenExpiration');
     localStorage.removeItem('roleId');
     setUserRole('');
     setIsAuthenticated(false);
