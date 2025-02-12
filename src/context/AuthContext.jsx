@@ -86,7 +86,7 @@ export const AuthProvider = ({ children }) => {
     // Set a new timeout for 10 seconds
     timeoutRef.current = setTimeout(() => {
       logout(); // Call logout after 5 minutes of inactivity
-    }, 30000);
+    }, 300000);
   };
 
   useEffect(() => {
