@@ -36,20 +36,17 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
       }
     }
 
-    window.location = `${process.env.REACT_APP_BASE_URL}/dashboard`; // workaround to refresh the page
+    window.location = `${process.env.REACT_APP_BASE_URL}/dashboard`; // workaround to refresh the page -> problem: toast does not get rendered correctly
     toast({
       description: "Neuen Mitarbeiter erfolgreich hinzugefügt.",
     });
   } catch (error) {
     if (error.response) {
-      const errorMessage = error.response?.data?.message
-      // Server-side error
       toast({
         variant: "destructive",
-        description: 'Fehler beim Hinzufügen des Mitarbeiters: ' + errorMessage,
+        description: 'Fehler beim Hinzufügen des Mitarbeiters: ' + error.response?.data?.message,
       });
     } else {
-      // Other error (e.g., network)
       toast({
         variant: "destructive",
         description: "Anderer Fehler beim Hinzufügen des Mitarbeiters: Backend ist nicht verfügbar.",

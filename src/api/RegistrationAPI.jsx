@@ -4,6 +4,7 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
   event.preventDefault();
   setLoading(true);
 
+  // check if role is selected - role is mandatory
   if (!formData.role) {
     toast({
       variant: "destructive",
@@ -20,13 +21,11 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
     });
 
     if (response.status === 200) {
-      // Successful registration
       toast({
         description: "Registrierung war erfolgreich!",
       });
       navigate("/dashboard");
     } else {
-      // Handle errors
       toast({
         variant: "destructive",
         description: "Registrierung fehlgeschlagen: " + response.data.message,
@@ -40,7 +39,6 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
         description: "Registrierung fehlgeschlagen: " + error.response?.data.message,
       });
     }
-    // something else failed
     toast({
       variant: "destructive",
       description: "Ein anderer Fehler ist aufgetreten: das Backend ist nicht verfügbar.",
@@ -51,7 +49,7 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
 
 export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading) => {
   event.preventDefault();
-  setLoading(true); // show loading spinner
+  setLoading(true);
   try {
     checkAccordance(); // throw error if passwords don't match
     const res = await axiosInstanceAPI.post('/registration/resetPassword.php', {

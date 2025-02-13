@@ -24,7 +24,6 @@ const Login = () => {
 
   const routeToReset = (event) => {
     event.preventDefault();
-    // router.push("/registration/resetPasswordRequest");
     navigate("/registration/resetPasswordRequest");
   }
 

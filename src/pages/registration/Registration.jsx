@@ -81,12 +81,6 @@ const Registration = () => {
     });
   };
 
-  // const handleRegistration = async (event, email, password, role, name, vorname, toast, setLoading, navigate) => {
-  //   event.preventDefault();
-
-  //   setLoading(true);
-  // };
-
   return (
     <>
       <div className="flex min-h-screen flex-col items-center justify-center p-24 bg-ec">

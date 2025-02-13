@@ -1,11 +1,12 @@
 import axiosInstanceAPI from "./axiosInstanceAPI";
 
+// function for getting all employees data
 export const getData = async () => {
   try {
     const response = await axiosInstanceAPI.get('/dashboard/getEmployeesData.php');
-    return response.data; // Return the fetched data
+    return response.data;
   } catch (error) {
-    return null; // Return null or handle the error appropriately
+    return null;
   }
 };
 
@@ -15,19 +16,17 @@ export const deleteEmployee = async (id, data, setData, toast) => {
       headers: { 'Content-Type': 'application/json' }
     });
 
-    setData(data.filter(employee => employee.id !== id));
+    setData(data.filter(employee => employee.id !== id)); // remove the deleted employee from the table without refreshing the page
     toast({
       description: "Mitarbeiter wurde erfolgreich gelöscht.",
     });
   } catch (error) {
     if (error.response) {
-      // Server-side error
       toast({
         variant: "destructive",
         description: 'Fehler beim Löschen des Mitarbeiters: ' + error.response?.data.message,
       });
     } else {
-      // Other error (e.g., network issue)
       toast({
         variant: "destructive",
         description: "Anderer Fehler beim Löschen des Mitarbeiters: Backend ist nicht verfügbar.",

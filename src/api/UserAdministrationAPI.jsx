@@ -1,12 +1,12 @@
 import axiosInstanceAPI from './axiosInstanceAPI';
 
-// Function to get users from the backend
+// Function to get all user data
 export const getDataRoles = async () => {
   try {
     const response = await axiosInstanceAPI.get('/userAdministration/getUserData.php');
     return response.data; // Return the fetched data
   } catch (error) {
-    return null; // Return null or handle the error appropriately
+    return null;
   }
 };
 
@@ -19,13 +19,11 @@ export const deleteUserFromDB = async (id, toast, data, setData) => {
     });
   } catch (error) {
     if (error.response) {
-      // Server-side error
       toast({
         variant: "destructive",
         description: 'Fehler beim Löschen des Mitarbeiters: ' + error.response?.data.message,
       });
     } else {
-      // Other error (e.g., network issue)
       toast({
         variant: "destructive",
         description: "Anderer Fehler beim Löschen des Mitarbeiters: " + error.response?.data.message,
@@ -41,7 +39,7 @@ export const updateUser = async (id, formData, setLoading, setData, toast, getDa
       headers: {
         'Content-Type': 'application/json',
       },
-      params: { id }, // id wird als Parameter übergeben
+      params: { id },
     });
 
     console.log(formData);

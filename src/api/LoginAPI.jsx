@@ -14,10 +14,8 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
 
       login(token); // Store JWT properly
       
-      // Redirect to the dashboard
       navigate("/dashboard");
 
-      // Show success message
       toast({
         description: "Login war erfolgreich!",
       });

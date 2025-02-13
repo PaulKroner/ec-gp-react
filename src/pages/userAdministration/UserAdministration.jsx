@@ -15,7 +15,7 @@ import TableSearchBar from "../../components/dashboardPage/TableSearchBar";
 import { useNavigate } from "react-router-dom";
 
 const UserAdministration = () => {
-  const [data, setData] = useState([]); // State for storing data from the backend
+  const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const { userRole, isAuthenticated } = useContext(AuthContext);
 
@@ -35,7 +35,7 @@ const UserAdministration = () => {
       row.name?.toLowerCase().includes(query) ||
       row.vorname?.toLowerCase().includes(query) ||
       row.email?.toLowerCase().includes(query) ||
-      getRoleString(row.role)?.toLowerCase().includes(query) // Use getRoleString here
+      getRoleString(row.role)?.toLowerCase().includes(query)
     );
   });
 

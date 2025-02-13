@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   const { userRole } = useContext(AuthContext);
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true); // For loading state
+  const [loading, setLoading] = useState(true);
   // state for showing / hiding columns
   const [showNachweise, setShowNachweise] = useState({
     nachweis1: true,
@@ -40,7 +40,7 @@ const Dashboard = () => {
     }));
   };
 
-  // Fetch data from the backend on mount
+  // Fetch employee data from the backend on mount
   useEffect(() => {
     const fetchData = async () => {
       const result = await getData();
@@ -72,7 +72,6 @@ const Dashboard = () => {
             </div>
 
             {/* Searchbar */}
-            {/* <div className="flex gap-6 flex-col justify-self-center xsc:justify-start w-full sm:flex-row sm:gap-4"> */}
             <div className="flex flex-col gap-6 smc:flex-row xsc:justify-start md:justify-end sm:w-full">
               <TableSearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
               {/* Add new employee */}

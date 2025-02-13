@@ -13,11 +13,11 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
   const [currentPage, setCurrentPage] = useState(1); // State for the current page of pagination[]
   const { userRole, isAuthenticated } = useContext(AuthContext);
 
-  // if (loading) {
-  //   return <LoadingContainer />; // Ladecontainer anzeigen, wenn loading true ist
-  // }
+  if (loading) {
+    return <LoadingContainer />; // Ladecontainer anzeigen, wenn loading true ist
+  }
 
-  // Utility function to check the date difference
+  // Utility function to check the date difference for coloring
   const getDateStatus = (date) => {
     const currentDate = new Date();
     const dateToCheck = new Date(date);
@@ -139,7 +139,6 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                       {row.postadresse ? row.postadresse.match(/\d{5} [A-Za-zäöüß]+\b/g)?.[0] || '' : ''}
                     </td>
                   )}
-                  {/* <td className="border border-slate-300 min-w-[300px]">{row.postadresse || ''}</td> */}
 
                   {showNachweise.nachweis1 && (
                     <>
