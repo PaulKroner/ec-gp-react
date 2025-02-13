@@ -24,7 +24,7 @@ export const deleteEmployee = async (id, data, setData, toast) => {
       // Server-side error
       toast({
         variant: "destructive",
-        description: 'Fehler beim Löschen des Mitarbeiters: ' + error.message,
+        description: 'Fehler beim Löschen des Mitarbeiters: ' + error.response?.data.message,
       });
     } else {
       // Other error (e.g., network issue)
@@ -43,7 +43,7 @@ export const updateEmployee = async (id, formData, setData, toast, setLoading) =
       headers: {
         'Content-Type': 'application/json',
       },
-      params: { id }, // id wird als Parameter übergeben
+      params: { id },
     });
 
     if (response.status === 200) {
@@ -60,7 +60,7 @@ export const updateEmployee = async (id, formData, setData, toast, setLoading) =
       // Server-side error
       toast({
         variant: "destructive",
-        description: 'Fehler bei Update des Mitarbeiters.',
+        description: 'Fehler bei Update des Mitarbeiters: ' + error.response?.data.message,
       });
     } else {
       // Other error (e.g., network)

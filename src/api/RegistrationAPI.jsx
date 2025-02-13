@@ -33,6 +33,13 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
       });
     }
   } catch (error) {
+
+    if (error.response) {
+      toast({
+        variant: "destructive",
+        description: "Registrierung fehlgeschlagen: " + error.response?.data.message,
+      });
+    }
     // something else failed
     toast({
       variant: "destructive",

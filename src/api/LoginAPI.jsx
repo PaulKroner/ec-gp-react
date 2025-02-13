@@ -7,8 +7,6 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
   try {
     const res = await axiosInstanceAPI.post('/login/login.php', { email, password });
 
-    console.log('API Response:', res.data);
-
     // Ensure response is valid and contains a token
     if (res.status === 200 && res.data.token) {
       const token = res.data.token;
@@ -33,7 +31,6 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
 
     }
   } catch (error) {
-    console.error("Login Fehler:", error.response?.status, error.response?.data || error.message);
 
     if (error.response) {
       toast({

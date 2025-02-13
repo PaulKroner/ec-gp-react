@@ -22,13 +22,13 @@ export const deleteUserFromDB = async (id, toast, data, setData) => {
       // Server-side error
       toast({
         variant: "destructive",
-        description: 'Fehler beim Löschen des Mitarbeiters: ' + error.message,
+        description: 'Fehler beim Löschen des Mitarbeiters: ' + error.response?.data.message,
       });
     } else {
       // Other error (e.g., network issue)
       toast({
         variant: "destructive",
-        description: "Anderer Fehler beim Löschen des Mitarbeiters: " + error.message,
+        description: "Anderer Fehler beim Löschen des Mitarbeiters: " + error.response?.data.message,
       });
     }
   }
@@ -57,7 +57,7 @@ export const updateUser = async (id, formData, setLoading, setData, toast, getDa
   } catch (error) {
     toast({
       variant: "destructive",
-      description: 'Fehler bei Update des Users: ' + error.message,
+      description: 'Fehler bei Update des Users: ' + error.response?.data.message,
     });
   }
   setLoading(false);

@@ -131,6 +131,14 @@ const EditUserDialog = ({ data, setData, row }) => {
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="role">Rolle</Label>
               <SelectRoleRegistration formData={formData} setFormData={setFormData} />
+              <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                <div className="flex flex-col">
+                  <div className="flex flex-row">
+                    <div>Wählen sie eine Rolle aus!</div>
+                    <span className="ml-1"></span>
+                  </div>
+                </div>
+              </span>
             </div>
             <DialogFooter>
               <DialogClose asChild>

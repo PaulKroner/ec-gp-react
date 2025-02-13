@@ -12,27 +12,41 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
 
     // Check if fz_eingetragen is empty before sending the email
     if (transformedFormData.fz_eingetragen === null) {
-      await axiosInstanceAPI.post('/sendEmailRequestFZ.php', {
-        email: transformedFormData.email,
-        name: transformedFormData.name,
-        vorname: transformedFormData.vorname
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      try {
+        await axiosInstanceAPI.post('/sendEmailRequestFZ.php', {
+          email: transformedFormData.email,
+          name: transformedFormData.name,
+          vorname: transformedFormData.vorname
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        toast({
+          description: "E-Mail zur Führungszeugnis-Anforderung erfolgreich gesendet.",
+        });
+
+      } catch (emailError) {
+        const errorMessage = emailError.response?.data?.message || "Fehler beim Senden der E-Mail.";
+        toast({
+          variant: "destructive",
+          description: errorMessage,
+        });
+      }
     }
 
-    window.location = "/dashboard"; // workaround to refresh the page
+    window.location = `${process.env.REACT_APP_BASE_URL}/dashboard`; // workaround to refresh the page
     toast({
       description: "Neuen Mitarbeiter erfolgreich hinzugefügt.",
     });
   } catch (error) {
     if (error.response) {
+      const errorMessage = error.response?.data?.message
       // Server-side error
       toast({
         variant: "destructive",
-        description: 'Fehler beim Hinzufügen des Mitarbeiters: ' + error.message,
+        description: 'Fehler beim Hinzufügen des Mitarbeiters: ' + errorMessage,
       });
     } else {
       // Other error (e.g., network)
