@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }) => {
        else {
         setIsAuthenticated(false);
         setUserRole('');
-        console.log("hier stimmt doch auch was nicht")
       }
     };
 
