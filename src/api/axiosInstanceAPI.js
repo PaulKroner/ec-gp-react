@@ -1,12 +1,11 @@
 import axios from 'axios';
 
 const axiosInstanceAPI = axios.create({
-  // baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost/php-backend/api",
-  baseURL: "http://localhost/gewaltpraevention-edv/php-backend/api",
+  baseURL: process.env.REACT_APP_GP_EDV_API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: true,  // Fügt Cookies in Anfragen hinzu
+  withCredentials: true,
 });
 
 export default axiosInstanceAPI;
