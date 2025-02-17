@@ -35,10 +35,16 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
         variant: "destructive",
         description: error.response?.data.message || "Login fehlgeschlagen",
       });
-    } else {
+    } else if (error.message.includes("Network Error")) {
       toast({
         variant: "destructive",
-        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+        description: "Keine Verbindung zum Server. Bitte prüfen Sie Ihre Internetverbindung.",
+      });
+    } else {
+      console.error(error.message);
+      toast({
+        variant: "destructive",
+        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut." + error.message,
       });
     }
   } finally {
