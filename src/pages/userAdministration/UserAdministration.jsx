@@ -25,7 +25,7 @@ const UserAdministration = () => {
     { label: "Name", value: "name" },
     { label: "Vorname", value: "vorname" },
     { label: "E-Mail", value: "email" },
-    { label: "Rolle", value: "role" },
+    { label: "Rolle", value: "role_id" },
   ];
 
   // Filter data based on search query
@@ -35,7 +35,7 @@ const UserAdministration = () => {
       row.name?.toLowerCase().includes(query) ||
       row.vorname?.toLowerCase().includes(query) ||
       row.email?.toLowerCase().includes(query) ||
-      getRoleString(row.role)?.toLowerCase().includes(query)
+      row.role?.toLowerCase().includes(query)
     );
   });
 

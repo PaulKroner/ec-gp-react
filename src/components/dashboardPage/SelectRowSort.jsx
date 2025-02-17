@@ -16,19 +16,17 @@ const SelectRowSort = ({ data, setData, options = [] }) => {
 
       let strA, strB;
 
-      if (key === "role") {
-        // Use getRoleString to get the string representation of the role
-        strA = getRoleString(valA)?.toLowerCase() || '';
-        strB = getRoleString(valB)?.toLowerCase() || '';
+      if (key === "role_id") {
+        strA = getRoleString(valA)?.toLowerCase() || "";  // Ensure a fallback if undefined
+        strB = getRoleString(valB)?.toLowerCase() || "";  // Ensure a fallback if undefined
       } else {
-        strA = typeof valA === 'string' ? valA.toLowerCase() : '';
-        strB = typeof valB === 'string' ? valB.toLowerCase() : '';
+        strA = typeof valA === "string" ? valA.toLowerCase() : String(valA);
+        strB = typeof valB === "string" ? valB.toLowerCase() : String(valB);
       }
 
-      // Log the values being compared for debugging
       return strA.localeCompare(strB);
     });
-    
+
     setData(sortedData); // Update the state with sorted data
   };
 
