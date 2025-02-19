@@ -8,7 +8,7 @@ import { Toaster } from "components/ui/toaster";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename="/gewaltpraevention-edv/frontend">
+    <BrowserRouter>
       <App />
     </BrowserRouter>
     <Toaster />

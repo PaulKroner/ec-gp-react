@@ -36,7 +36,7 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
       }
     }
 
-    window.location = `${process.env.REACT_APP_BASE_URL}/dashboard`; // workaround to refresh the page -> problem: toast does not get rendered correctly
+    window.location = `/dashboard`; // workaround to refresh the page -> problem: toast does not get rendered correctly
     toast({
       description: "Neuen Mitarbeiter erfolgreich hinzugefügt.",
     });

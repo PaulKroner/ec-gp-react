@@ -13,7 +13,7 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
       localStorage.setItem('token', token);
 
       login(token); // Store JWT properly
-      
+
       navigate("/dashboard");
 
       toast({
@@ -30,10 +30,10 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
     }
   } catch (error) {
 
-    if (error.response) {
+    if (error.response.status === 401) {
       toast({
         variant: "destructive",
-        description: error.response?.data.message || "Login fehlgeschlagen",
+        description: error.response.data.message || "Falsche Zugangsdaten.",
       });
     } else if (error.message.includes("Network Error")) {
       toast({
@@ -41,10 +41,9 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
         description: "Keine Verbindung zum Server. Bitte prüfen Sie Ihre Internetverbindung.",
       });
     } else {
-      console.error(error.message);
       toast({
         variant: "destructive",
-        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut." + error.message,
+        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut. " + error.message,
       });
     }
   } finally {
