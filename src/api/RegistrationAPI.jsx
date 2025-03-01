@@ -88,11 +88,24 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
 export const handleResetRequest = async (event, email, toast, setLoading) => {
   event.preventDefault();
   setLoading(true);
-  await axiosInstanceAPI.post('/sendResetPasswordEmail.php', {
-    email,
-  });
-  toast({
-    description: "Anfrage ist abgeschickt. Bitte überprüfen Sie Ihre E-Mails!",
-  });
+
+  try {
+    const response = await axiosInstanceAPI.post('/sendResetPasswordEmail.php', {
+      email,
+    });
+
+    // Display the backend message in the toast notification
+    toast({
+      description: response.data.message || "Anfrage ist abgeschickt. Bitte überprüfen Sie Ihre E-Mails!",
+    });
+
+  } catch (error) {
+    // Handle error responses
+    toast({
+      description: error.response?.data?.message || "Fehler beim Senden der Anfrage.",
+      status: "error",
+    });
+  }
+
   setLoading(false);
 };
