@@ -57,7 +57,7 @@ const UserAdministration = () => {
 
   return (
     <>
-      <div className="flex min-h-screen flex-col items-center justify-center p-24 bg-ec">
+      <div className="flex min-h-screen flex-col items-center justify-center p-16 bg-ec">
         <div className="relative bg-white h-full rounded-2xl p-12 flex flex-col justify-center items-center gap-8">
           <h1 className="flex justify-center items-center font-extrabold headline">Rechteverwaltung</h1>
           <button className="absolute top-4 left-4 m-1" onClick={backToDashboard}>
