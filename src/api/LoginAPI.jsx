@@ -1,11 +1,16 @@
 import axiosInstanceAPI from "./axiosInstanceAPI";
 
-export const handleLogin = async (event, email, password, setLoading, login, toast, navigate) => {
+export const handleLogin = async (event, email, password, setLoading, login, toast, navigate, honeypot) => {
   event.preventDefault();
   setLoading(true); // Show loading spinner
 
+  // honeypot check
+  if (honeypot) {
+    return;
+  }
+
   try {
-    const res = await axiosInstanceAPI.post('/login/login.php', { email, password });
+    const res = await axiosInstanceAPI.post('/login/login.php', { email, password, honeypot });
 
     // Ensure response is valid and contains a token
     if (res.status === 200 && res.data.token) {
