@@ -71,6 +71,17 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
     setCurrentPage(page);
   };
 
+  function formatKontrolliertNames(names) {
+    if (!names) return '';
+    const splitNames = names.split(' ').reduce((acc, curr, index, array) => {
+      if (index % 2 === 0) {
+        acc.push(array.slice(index, index + 2).join(' '));
+      }
+      return acc;
+    }, []);
+    return splitNames.join('<br/>');
+  }
+
   // Calculate the data for the current page
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
@@ -146,8 +157,7 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                       <td className={`border border-slate-300 ${row.fz_abgelaufen ? getDateStatus(row.fz_abgelaufen) : ''}`}>
                         {row.fz_abgelaufen ? formatDate(row.fz_abgelaufen) : ''}
                       </td>
-                      <td className="border border-slate-300">{row.fz_kontrolliert || ''}</td>
-                      <td className="border border-slate-300">{row.fz_kontrolliert_am ? formatDate(row.fz_kontrolliert_am) : ""}</td>
+                      <td className="border border-slate-300" dangerouslySetInnerHTML={{ __html: formatKontrolliertNames(row.fz_kontrolliert) }}></td>                      <td className="border border-slate-300">{row.fz_kontrolliert_am ? formatDate(row.fz_kontrolliert_am) : ""}</td>
                     </>
                   )}
 
@@ -156,8 +166,7 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                       <td className="border border-slate-300">{row.gs_eingetragen ? formatDate(row.gs_eingetragen) : ''}</td>
                       <td className="border border-slate-300">{row.gs_erneuert ? formatDate(row.gs_erneuert) : ''}
                       </td>
-                      <td className="border border-slate-300">{row.gs_kontrolliert || ''}</td>
-                    </>
+                      <td className="border border-slate-300" dangerouslySetInnerHTML={{ __html: formatKontrolliertNames(row.gs_kontrolliert) }}></td>                    </>
                   )}
 
                   {showNachweise.nachweis3 && (
@@ -166,13 +175,11 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                       <td className={`border border-slate-300 ${row.us_abgelaufen ? getDateStatus(row.us_abgelaufen) : ''}`}>
                         {row.us_abgelaufen ? formatDate(row.us_abgelaufen) : ''}
                       </td>
-                      <td className="border border-slate-300">{row.us_kontrolliert || ''}</td>
-                    </>
+                      <td className="border border-slate-300" dangerouslySetInnerHTML={{ __html: formatKontrolliertNames(row.us_kontrolliert) }}></td>                    </>
                   )}
                   {showNachweise.nachweis4 && (<>
                     <td className="border border-slate-300">{row.sve_eingetragen ? formatDate(row.sve_eingetragen) : ''}</td>
-                    <td className="border border-slate-300">{row.sve_kontrolliert || ''}</td>
-                  </>)}
+                    <td className="border border-slate-300" dangerouslySetInnerHTML={{ __html: formatKontrolliertNames(row.sve_kontrolliert) }}></td>                  </>)}
 
                   <td className="border border-slate-300">{row.hauptamt ? ("Ja") : ("Nein")}</td>
                   
