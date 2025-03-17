@@ -109,3 +109,29 @@ export const handleResetRequest = async (event, email, toast, setLoading) => {
 
   setLoading(false);
 };
+
+export const validateToken = async (token, toast, setIsTokenValid) => {
+  try {
+    const response = await axiosInstanceAPI.get(`/registration/validateResetToken.php`, {
+      params: { token },
+    });
+
+    console.log("API Response:", response.data);
+
+    // response if valid or not is in the first element of the array
+    if (response.data?.[0]?.valid) {
+      setIsTokenValid(true);
+      console.log("Token is valid: ", response.data[0].message);
+    } else {
+      setIsTokenValid(false);
+      console.log("Token is invalid: ", response.data[0].message);
+    }
+    
+  } catch (error) {
+    setIsTokenValid(false);
+    toast({
+      description: error.response?.data?.message || "Fehler beim Senden der Anfrage.",
+      status: "error",
+    });
+  }
+};
