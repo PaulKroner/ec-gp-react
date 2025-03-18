@@ -17,6 +17,7 @@ const ResetPassword = ({ params }) => {
   const { token } = useParams();
   const navigate = useNavigate();
   const [isTokenValid, setIsTokenValid] = useState(null);
+  const [honeypot, setHoneypot] = useState(''); // Honeypot
 
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
@@ -84,7 +85,20 @@ const ResetPassword = ({ params }) => {
                 Passwort ändern
               </h2>
 
-              <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={(event) => handleResetPassword(event, checkAccordance, token, password, toast, navigate, setLoading)}>
+              <form className="mt-4 space-y-4 lg:mt-5 md:space-y-5" onSubmit={(event) => handleResetPassword(event, checkAccordance, token, password, toast, navigate, setLoading, honeypot)}>
+                {/* honeypot against simple bots */}
+                <div className="hidden">
+                  <label htmlFor="honeypot">E-Mail</label>
+                  <input
+                    type="text"
+                    id="form_email"
+                    name="form_email"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    autoComplete="off"
+                  />
+                </div>
+                
                 <div>
                   <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     neues Passwort

@@ -47,9 +47,15 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
   setLoading(false);
 };
 
-export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading) => {
+export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading, honeypot) => {
   event.preventDefault();
   setLoading(true);
+
+  // honeypot check
+  if (honeypot) {
+    return;
+  }
+
   try {
     checkAccordance(); // throw error if passwords don't match
     const res = await axiosInstanceAPI.post('/registration/resetPassword.php', {
@@ -126,7 +132,7 @@ export const validateToken = async (token, toast, setIsTokenValid) => {
       setIsTokenValid(false);
       console.log("Token is invalid: ", response.data[0].message);
     }
-    
+
   } catch (error) {
     setIsTokenValid(false);
     toast({
