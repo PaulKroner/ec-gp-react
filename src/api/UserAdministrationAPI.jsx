@@ -42,8 +42,6 @@ export const updateUser = async (id, formData, setLoading, setData, toast, getDa
       params: { id },
     });
 
-    console.log(formData);
-
     if (response.status === 200) {
       const updatedData = await getDataRoles(); //display the updated users
       setData(updatedData);

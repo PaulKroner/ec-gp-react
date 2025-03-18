@@ -54,11 +54,9 @@ const ResetPassword = ({ params }) => {
   // Function to validate the token
   useEffect(() => {
     const fetchData = async () => {
-      console.log('Validating token:', token);
       setLoading(true);
 
       const result = await validateToken(token, toast, setIsTokenValid); // Validate the token
-      console.log('Token validation result:', result);
       setLoading(false);
     };
 
