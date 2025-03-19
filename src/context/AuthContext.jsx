@@ -43,10 +43,17 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuthentication = () => {
       if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // Get current time in seconds
+        const isExpired = decodedToken.exp < currentTime;
+
+        if (isExpired) {
+          logout();  // If token expired, logout user
+        } else {
           setIsAuthenticated(true);
           setUserRole(roleId ? Number(roleId) : '');
         }
-       else {
+      } else {
         setIsAuthenticated(false);
         setUserRole('');
       }
@@ -54,6 +61,10 @@ export const AuthProvider = ({ children }) => {
 
     checkAuthentication();
     setLoading(false);
+
+    const interval = setInterval(checkAuthentication, 600000); // Check every 10 min
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
 
