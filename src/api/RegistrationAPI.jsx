@@ -78,7 +78,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
     } else if (error.response) {
       toast({
         variant: "destructive",
-        description: 'Passwort zurücksetzen fehlgeschlagen: ' + error.response.data,
+        description: 'Passwort zurücksetzen fehlgeschlagen: ' + error.response?.data?.message,
       });
     } else {
       toast({
