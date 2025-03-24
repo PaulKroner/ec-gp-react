@@ -20,7 +20,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
     gs_erneuert: true,
     us_abgelaufen: true,
   });
-  const [activeButton, setActiveButton] = useState(null); // State to track the active button
+  const [activeButton, setActiveButton] = useState(null); // State to track the active hauptamt button
   const [hauptamt, setHauptamt] = useState(false); // State for the Hauptamt button
 
 
@@ -64,7 +64,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
         .join(' ');
     }
 
-    // Convert email to lowercase
+    // Convert email to lowercase for consistency
     if (id === "email") {
       newValue = value.toLowerCase();
     }
@@ -139,7 +139,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
         description: "Bitte füllen Sie die Pflichtfelder Name, Vorname und E-Mail aus.",
       });
       setLoading(false);
-      return; // Exit early
+      return;
     }
     // Check for invalid dates
     const invalidFields = [];
@@ -161,10 +161,10 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
       setDateError(errorMessage);
       toast({
         variant: "destructive",
-        description: errorMessage, // Display the date error message
+        description: errorMessage,
       });
       setLoading(false);
-      return; // Exit early
+      return;
     } else {
       setDateError('');
       setLoading(false);

@@ -15,7 +15,7 @@ import LoadingContainer from '../components/LoadingContainer/LoadingContainer';
 
 const withAuth = (WrappedComponent, requiredRole = UserRole.User) => {
   const WithAuthComponent = (props) => {
-    const { isAuthenticated, loading, userRole } = useAuthContext(); // Get isAuthenticated and loading
+    const { isAuthenticated, loading, userRole } = useAuthContext();
     const navigate = useNavigate(); // React Router hook for navigation
     const location = useLocation(); // React Router hook for current location
 

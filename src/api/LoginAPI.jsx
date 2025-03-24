@@ -1,25 +1,43 @@
 import axiosInstanceAPI from "./axiosInstanceAPI";
+import { jwtDecode } from 'jwt-decode';
 
-export const handleLogin = async (event, email, password, setLoading, login, toast, navigate) => {
+export const handleLogin = async (event, email, password, setLoading, login, toast, navigate, honeypot) => {
   event.preventDefault();
   setLoading(true); // Show loading spinner
 
-  try {
-    const res = await axiosInstanceAPI.post('/login/login.php', { email, password });
+  // honeypot check
+  if (honeypot) {
+    return;
+  }
 
-    console.log('API Response:', res.data);
+  try {
+    const res = await axiosInstanceAPI.post('/login/login.php', { email, password, honeypot });
 
     // Ensure response is valid and contains a token
     if (res.status === 200 && res.data.token) {
       const token = res.data.token;
+
+      // Decode the JWT to check the expiration
+      const decodedToken = jwtDecode(token);
+
+      // Check if the token has expired (exp is in seconds)
+      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+      if (decodedToken.exp < currentTime) {
+        // If token is expired, handle the expiration (logout the user)
+        localStorage.removeItem('token'); // Remove the expired token
+        toast({
+          variant: "destructive",
+          description: "Session expired. Please log in again.",
+        });
+        return;
+      }
+
       localStorage.setItem('token', token);
 
       login(token); // Store JWT properly
-      
-      // Redirect to the dashboard
+
       navigate("/dashboard");
 
-      // Show success message
       toast({
         description: "Login war erfolgreich!",
       });
@@ -33,17 +51,21 @@ export const handleLogin = async (event, email, password, setLoading, login, toa
 
     }
   } catch (error) {
-    console.error("Login Fehler:", error.response?.status, error.response?.data || error.message);
 
-    if (error.response) {
+    if (error.response.status === 401) {
       toast({
         variant: "destructive",
-        description: error.response?.data.message || "Login fehlgeschlagen",
+        description: error.response.data.message || "Falsche Zugangsdaten.",
+      });
+    } else if (error.message.includes("Network Error")) {
+      toast({
+        variant: "destructive",
+        description: "Keine Verbindung zum Server. Bitte prüfen Sie Ihre Internetverbindung.",
       });
     } else {
       toast({
         variant: "destructive",
-        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.",
+        description: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut. " + error.message,
       });
     }
   } finally {

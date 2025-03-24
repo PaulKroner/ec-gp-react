@@ -46,12 +46,10 @@ const AddEmployeeDialog = () => {
     hauptamt: false,
   });
 
-  // const [fz_kontrolliert_first, setFzKontrolliertFirst] = useState('');
-  // const [fz_kontrolliert_second, setFzKontrolliertSecond] = useState('');
   const [loading, setLoading] = useState(false);
   const [dateError, setDateError] = useState('');
   const [gsDisabled, setGsDisabled] = useState(true);
-  const [activeButton, setActiveButton] = useState(null); // State to track the active button
+  const [activeButton, setActiveButton] = useState(null); // State to track the active hauptamt button
   const [hauptamt, setHauptamt] = useState(false);
 
   const handleChange = (e) => {
@@ -69,13 +67,13 @@ const AddEmployeeDialog = () => {
         .join(' ');
     }
 
-    // Convert email to lowercase
+    // Convert email to lowercase for consistency
     if (id === "email") {
       newValue = value.toLowerCase();
     }
 
     if (id === 'fz_eingetragen') {
-      let year = hauptamt ? 3 : 5;
+      let year = hauptamt ? 3 : 5; // hauptamt = 3 years, not hauptamt = 5 years
       const newFzAbgelaufen = calculateExpirationDate(value, year);
       setFormData((prevData) => ({
         ...prevData,
@@ -127,7 +125,7 @@ const AddEmployeeDialog = () => {
         description: "Bitte füllen Sie die Pflichtfelder Name, Vorname und E-Mail aus.",
       });
       setLoading(false);
-      return; // Exit early
+      return;
     }
 
     // Check for invalid dates
@@ -150,15 +148,16 @@ const AddEmployeeDialog = () => {
       setDateError(errorMessage);
       toast({
         variant: "destructive",
-        description: errorMessage, // Display the date error message
+        description: errorMessage,
       });
       setLoading(false);
-      return; // Exit early
+      return;
     } else {
       setDateError('');
       setLoading(false);
     }
 
+    // Combine the two fields for fz_kontrolliert into one field (db requirement)
     const fz_kontrolliert = `${formData.fz_kontrolliert_first.trim()} ${formData.fz_kontrolliert_second.trim()}`.trim();
     const { fz_kontrolliert_first, fz_kontrolliert_second, ...dataToSubmit } = formData;
     const transformedFormData = transformFormData({
@@ -173,7 +172,7 @@ const AddEmployeeDialog = () => {
   const handleButtonClick = (button) => {
     const isHauptamt = button === 'yes';
     setHauptamt(isHauptamt); // Set hauptamt based on the button clicked
-    setActiveButton(button); // Update active button state
+    setActiveButton(button);
 
     // Update formData.hauptamt
     setFormData((prevData) => ({
@@ -249,7 +248,6 @@ const AddEmployeeDialog = () => {
           <form className="grid gap-3 py-4" onSubmit={validateAndInsertEmployee}>
 
             {fields.map(({ id, label, ...rest }, index) => {
-              // Insert custom code at a specific position (e.g., after "fz_eingetragen")
               if (id === "email") {
                 return (
                   <React.Fragment key={id}>
@@ -337,7 +335,7 @@ const AddEmployeeDialog = () => {
                 <Button
                   className={`bg-white text-black w-16 rounded-md hover:bg-lime-200 border-ec border-2 ${activeButton === 'no' ? 'bg-ec hover:ge-ec' : ''}`}
                   onClick={(event) => {
-                    event.preventDefault(); // Prevent the form from submitting
+                    event.preventDefault();
                     handleButtonClick('no'); // Set 'no' button as active
                   }}
                 >

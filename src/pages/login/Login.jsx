@@ -17,6 +17,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [honeypot, setHoneypot] = useState(''); // Honeypot
 
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -24,14 +25,13 @@ const Login = () => {
 
   const routeToReset = (event) => {
     event.preventDefault();
-    // router.push("/registration/resetPasswordRequest");
     navigate("/registration/resetPasswordRequest");
   }
 
   return (
-    <div className='flex min-h-screen flex-col items-center justify-center p-24 bg-ec '>
+    <div className='flex min-h-screen flex-col items-center justify-center p-16 bg-ec '>
       <div className="bg-white h-full rounded-2xl p-12 login-container">
-        <form onSubmit={(event) => handleLogin(event, email, password, setLoading, login, toast, navigate)} className="flex flex-col justify-center items-center gap-6">
+        <form onSubmit={(event) => handleLogin(event, email, password, setLoading, login, toast, navigate, honeypot)} className="flex flex-col justify-center items-center gap-6">
           
           <div className="flex gap-4 flex-col items-center">
             <div className="w-full flex justify-center">
@@ -40,6 +40,19 @@ const Login = () => {
             <div className="flex justify-center items-center font-extrabold text-2xl text-center">
               Gewaltprävention Login
             </div>
+          </div>
+
+          {/* honeypot against simple bots */}
+          <div className="hidden">
+          <label htmlFor="honeypot">E-Mail</label>
+            <input 
+              type="text" 
+              id="form_email" 
+              name="form_email" 
+              value={honeypot} 
+              onChange={(e) => setHoneypot(e.target.value)}
+              autoComplete="off"
+            />
           </div>
 
 

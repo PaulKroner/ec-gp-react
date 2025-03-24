@@ -4,6 +4,7 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
   event.preventDefault();
   setLoading(true);
 
+  // check if role is selected - role is mandatory
   if (!formData.role) {
     toast({
       variant: "destructive",
@@ -20,20 +21,24 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
     });
 
     if (response.status === 200) {
-      // Successful registration
       toast({
         description: "Registrierung war erfolgreich!",
       });
       navigate("/dashboard");
     } else {
-      // Handle errors
       toast({
         variant: "destructive",
         description: "Registrierung fehlgeschlagen: " + response.data.message,
       });
     }
   } catch (error) {
-    // something else failed
+
+    if (error.response) {
+      toast({
+        variant: "destructive",
+        description: "Registrierung fehlgeschlagen: " + error.response?.data.message,
+      });
+    }
     toast({
       variant: "destructive",
       description: "Ein anderer Fehler ist aufgetreten: das Backend ist nicht verfügbar.",
@@ -42,9 +47,15 @@ export const handleRegistration = async (event, formData, toast, setLoading, nav
   setLoading(false);
 };
 
-export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading) => {
+export const handleResetPassword = async (event, checkAccordance, token, password, toast, navigate, setLoading, honeypot) => {
   event.preventDefault();
-  setLoading(true); // show loading spinner
+  setLoading(true);
+
+  // honeypot check
+  if (honeypot) {
+    return;
+  }
+
   try {
     checkAccordance(); // throw error if passwords don't match
     const res = await axiosInstanceAPI.post('/registration/resetPassword.php', {
@@ -67,7 +78,7 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
     } else if (error.response) {
       toast({
         variant: "destructive",
-        description: 'Passwort zurücksetzen fehlgeschlagen: ' + error.response.data,
+        description: 'Passwort zurücksetzen fehlgeschlagen: ' + error.response?.data?.message,
       });
     } else {
       toast({
@@ -83,11 +94,46 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
 export const handleResetRequest = async (event, email, toast, setLoading) => {
   event.preventDefault();
   setLoading(true);
-  await axiosInstanceAPI.post('/sendResetPasswordEmail.php', {
-    email,
-  });
-  toast({
-    description: "Anfrage ist abgeschickt. Bitte überprüfen Sie Ihre E-Mails!",
-  });
+
+  try {
+    const response = await axiosInstanceAPI.post('/sendResetPasswordEmail.php', {
+      email,
+    });
+
+    // Display the backend message in the toast notification
+    toast({
+      description: response.data.message || "Anfrage ist abgeschickt. Bitte überprüfen Sie Ihre E-Mails!",
+    });
+
+  } catch (error) {
+    // Handle error responses
+    toast({
+      description: error.response?.data?.message || "Fehler beim Senden der Anfrage.",
+      status: "error",
+    });
+  }
+
   setLoading(false);
+};
+
+export const validateToken = async (token, toast, setIsTokenValid) => {
+  try {
+    const response = await axiosInstanceAPI.get(`/registration/validateResetToken.php`, {
+      params: { token },
+    });
+
+    // response if valid or not is in the first element of the array
+    if (response.data?.[0]?.valid) {
+      setIsTokenValid(true);
+    } else {
+      setIsTokenValid(false);
+    }
+
+  } catch (error) {
+    setIsTokenValid(false);
+    toast({
+      description: error.response?.data?.message || "Fehler beim Senden der Anfrage.",
+      status: "error",
+    });
+  }
 };

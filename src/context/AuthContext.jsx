@@ -14,6 +14,7 @@
 import React, { createContext, useState, useEffect, useContext, useRef } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
+// convert the user role to a number for easier comparison
 export const UserRole = {
   "Admin": 1,
   "User": 2,
@@ -33,7 +34,7 @@ export const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
   const [userRole, setUserRole] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);  // New state to track if the app is loading
+  const [loading, setLoading] = useState(true);
   const timeoutRef = useRef(null); // Reference for the inactivity timer
 
   useEffect(() => {
@@ -42,23 +43,33 @@ export const AuthProvider = ({ children }) => {
 
     const checkAuthentication = () => {
       if (token) {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // Get current time in seconds
+        const isExpired = decodedToken.exp < currentTime;
+
+        if (isExpired) {
+          logout();  // If token expired, logout user
+        } else {
           setIsAuthenticated(true);
-          setUserRole(roleId ? Number(roleId) : ''); // Convert roleId to number
+          setUserRole(roleId ? Number(roleId) : '');
         }
-       else {
+      } else {
         setIsAuthenticated(false);
         setUserRole('');
-        console.log("hier stimmt doch auch was nicht")
       }
     };
 
     checkAuthentication();
     setLoading(false);
+
+    const interval = setInterval(checkAuthentication, 600000); // Check every 10 min
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
 
   const login = (token) => {
-    // Store token and expiration time in localStorage
+    // Store token in local storage
     const decodedToken = jwtDecode(token);
     localStorage.setItem('token', token);
     localStorage.setItem('roleId', decodedToken.role_id); // Store roleId
@@ -79,7 +90,6 @@ export const AuthProvider = ({ children }) => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    // Set a new timeout for 10 seconds
     timeoutRef.current = setTimeout(() => {
       logout(); // Call logout after 5 minutes of inactivity
     }, 300000);

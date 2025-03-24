@@ -4,7 +4,6 @@ import { Label } from "../ui/label";
 import { Button } from "../ui/button";
 import { useToast } from "../../hooks/use-toast";
 import { useState } from "react";
-import { getRoleString } from "../../lib/utils";
 import SelectRoleRegistration from "../SelectRoleRegistration";
 import { getDataRoles, updateUser } from "../../api/UserAdministrationAPI";
 import ModalSubmitButton from "../ModalSubmitButton";
@@ -21,7 +20,7 @@ const EditUserDialog = ({ data, setData, row }) => {
     name: data.name || '',
     vorname: data.vorname || '',
     email: data.email || '',
-    role: getRoleString(row.role) || '',
+    role: data.role_id || '',
   });
 
   const handleChange = (e) => {
@@ -56,7 +55,7 @@ const EditUserDialog = ({ data, setData, row }) => {
       name: row.name || "",
       vorname: row.vorname || "",
       email: row.email || "",
-      role: getRoleString(row.role) || "",
+      role: row.role_id || "",
     });
   };
 
@@ -131,6 +130,14 @@ const EditUserDialog = ({ data, setData, row }) => {
             <div className="grid grid-cols-3 items-center gap-4">
               <Label htmlFor="role">Rolle</Label>
               <SelectRoleRegistration formData={formData} setFormData={setFormData} />
+              <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                <div className="flex flex-col">
+                  <div className="flex flex-row">
+                    <div>Wählen sie eine Rolle aus!</div>
+                    <span className="ml-1"></span>
+                  </div>
+                </div>
+              </span>
             </div>
             <DialogFooter>
               <DialogClose asChild>
