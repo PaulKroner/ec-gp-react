@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# Frontend zum Gewaltpräventionstool des [EC Sachsen-Anhalt e.V.](https://ecsa.de/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Die Anwendung ermöglicht das Abrufen, Anlegen, Bearbeiten und Löschen von Mitarbeitern sowie deren Nachweisen (z. B. Polizeiliches Führungszeugnis).\
+Sobald ein Nachweis abläuft oder nachgereicht werden muss, werden automatisch E-Mail-Benachrichtigungen an die betroffenen Mitarbeiter versendet. Zudem ist ein Authentifizierungssystem mit Rollenverwaltung für Administratoren und Mitarbeiter implementiert, das auf JWT basiert.\
+Das Frontend wurde mit React.js entwickelt, während das Backend in PHP realisiert wurde. Die Anwendung nutzt eine MySQL-Datenbank.\
+Verwendete Libraries sind [Shadcn UI](https://ui.shadcn.com/), [JWT](https://auth0.com/de/learn/json-web-tokens), [TailwindCSS](https://tailwindcss.com/), [Axios](https://axios-http.com/docs/intro) und [PHPMailer](https://github.com/PHPMailer/PHPMailer)
 
-## Available Scripts
+Für die Backend Dokumentation siehe: [Backend Dokumentation](https://github.com/PaulKroner/gewaltpraevention-edv)
 
-In the project directory, you can run:
+## Branches
 
-### `npm start`
+Das Repository enthält zwei Branches, Main und Dev.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Main dient als Production Branch und Dev ist der Entwicklungs Branch, der auf [Localhost]() läuft.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## .env
+
+`REACT_APP_GP_EDV_API_URL=http://localhost`\
+Für die Entwicklung der App muss der Pfad, der z.B. in [Xampp](https://www.apachefriends.org/de/index.html) hinterlegt ist, angegeben werden.\
+`Localhost` muss dann für die Production geändert werden, z.B. in `https://dein-server.com/api/`.
+
+## Scripts
+
+### `npm start` *Wichtig für Entwicklung*
+
+Startet die App im dev mode.
+
+In der URL des Browsers muss [http://localhost:3000](http://localhost:3000) eingeben werden, um die App zu sehen.\
+Die Seite aktualisiert Änderungen automatisch. Syntax Fehler können in der Console oder in den Browser Dev Tools eingesehen werden.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Startet den Test-Runner im interaktiven Watch-Modus.\
+Siehe den Abschnitt über das [Ausführen von Tests](https://facebook.github.io/create-react-app/docs/running-tests) für weitere Informationen.
 
-### `npm run build`
+### `npm run build` *Wichtig für Server*
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Erstellt die App für die Produktion auf dem Server im Ordner `build`.  
+Dabei wird React korrekt im Produktionsmodus gebündelt und der Build für die beste Leistung optimiert.  
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Der Build ist minimiert und die Dateinamen enthalten Hashes.  
+Deine App ist bereit für die Bereitstellung!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Mehr zu: [Deployment](https://facebook.github.io/create-react-app/docs/deployment).
 
-### `npm run eject`
+## Mehr zur React Dokumentation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+[Create React App Dokumentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[React Dokumentation](https://reactjs.org/).
