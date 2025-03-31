@@ -56,6 +56,17 @@ export const handleResetPassword = async (event, checkAccordance, token, passwor
     return;
   }
 
+  // Passwortvalidierung
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{6,}$/;
+  if (!passwordRegex.test(password)) {
+    toast({
+      variant: "destructive",
+      description: "Das neue Passwort erfüllt die Anforderungen nicht!",
+    });
+    setLoading(false);
+    return;
+  }
+
   try {
     checkAccordance(); // throw error if passwords don't match
     const res = await axiosInstanceAPI.post('/registration/resetPassword.php', {
