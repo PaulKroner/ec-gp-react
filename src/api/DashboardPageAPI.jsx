@@ -10,30 +10,34 @@ export const InsertEmployee = async (transformedFormData, toast, setLoading) => 
       },
     });
 
-    // Check if fz_eingetragen is empty before sending the email
-    if (transformedFormData.fz_eingetragen === null) {
+    // Check before sending the email
+    const sendEmailRequest = async (endpoint, successMessage) => {
       try {
-        await axiosInstanceAPI.post('/sendEmailRequestFZ.php', {
+        await axiosInstanceAPI.post(endpoint, {
           email: transformedFormData.email,
           name: transformedFormData.name,
           vorname: transformedFormData.vorname
         }, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
         });
-
-        toast({
-          description: "E-Mail zur Führungszeugnis-Anforderung erfolgreich gesendet.",
-        });
-
+    
+        toast({ description: successMessage });
       } catch (emailError) {
-        const errorMessage = emailError.response?.data?.message || "Fehler beim Senden der E-Mail.";
         toast({
           variant: "destructive",
-          description: errorMessage,
+          description: emailError.response?.data?.message || "Fehler beim Senden der E-Mail.",
         });
       }
+    };
+    
+    if (transformedFormData.fz_eingetragen === null) {
+      await sendEmailRequest('/sendEmailRequestFZ.php', 
+        "E-Mail zur Führungszeugnis-Anforderung erfolgreich gesendet.");
+    }
+    
+    if (transformedFormData.sve_eingetragen === null) {
+      await sendEmailRequest('/SendEmailRequestSVE.php', 
+        "E-Mail zur Selbstverpflichtungserklärung-Anforderung erfolgreich gesendet.");
     }
 
     window.location = `/dashboard`; // workaround to refresh the page -> problem: toast does not get rendered correctly
