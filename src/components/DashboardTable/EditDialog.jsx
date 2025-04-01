@@ -141,6 +141,33 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
       setLoading(false);
       return;
     }
+
+    if (formData.postadresse) {
+      const splitAddress = formData?.postadresse?.trim().split(/\s+/) || [];
+      const zip = splitAddress[0];
+      const city = splitAddress.slice(1).join(" ");
+
+      if (zip.length < 5 && zip.length > 1 || zip.length > 5) {
+        const errorMessage = `Die Postleitzahl ist falsch eingetragen.`;
+        toast({
+          variant: "destructive",
+          description: errorMessage,
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (city.length < 2) {
+        const errorMessage = `Der Ort ist falsch eingetragen.`;
+        toast({
+          variant: "destructive",
+          description: errorMessage,
+        });
+        setLoading(false);
+        return;
+      }
+    }
+
     // Check for invalid dates
     const invalidFields = [];
     const fieldsToCheck = [
@@ -243,7 +270,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
 
             {/* Name Field */}
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name" className="after:content-['*'] after:ml-0.5 after:text-red-500">Name</Label>
               <Input
                 type="text"
                 id="name"
@@ -254,7 +281,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
             </div>
             {/* Vorname Field */}
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="vorname">Vorname</Label>
+              <Label htmlFor="vorname" className="after:content-['*'] after:ml-0.5 after:text-red-500">Vorname</Label>
               <Input
                 type="text"
                 id="vorname"
@@ -265,7 +292,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
             </div>
             {/* Email Field */}
             <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="email">E-Mail</Label>
+              <Label htmlFor="email" className="after:content-['*'] after:ml-0.5 after:text-red-500">E-Mail</Label>
               <Input
                 type="email"
                 id="email"
@@ -483,11 +510,9 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
                   abbrechen
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
                 <Button className="px-0" type="submit">
                   <ModalSubmitButton text="Änderungen speichern" loading={loading} />
                 </Button>
-              </DialogClose>
             </DialogFooter>
           </form>
         </DialogContent>

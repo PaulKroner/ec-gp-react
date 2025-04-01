@@ -128,6 +128,32 @@ const AddEmployeeDialog = () => {
       return;
     }
 
+    if (formData.postadresse) {
+      const splitAddress = formData?.postadresse?.trim().split(/\s+/) || [];
+      const zip = splitAddress[0];
+      const city = splitAddress.slice(1).join(" ");
+
+      if (zip.length < 5 && zip.length > 1 || zip.length > 5) {
+        const errorMessage = `Die Postleitzahl ist falsch eingetragen.`;
+        toast({
+          variant: "destructive",
+          description: errorMessage,
+        });
+        setLoading(false);
+        return;
+      }
+
+      if (city.length < 2) {
+        const errorMessage = `Der Ort ist falsch eingetragen.`;
+        toast({
+          variant: "destructive",
+          description: errorMessage,
+        });
+        setLoading(false);
+        return;
+      }
+    }
+
     // Check for invalid dates
     const invalidFields = [];
     const fieldsToCheck = [
