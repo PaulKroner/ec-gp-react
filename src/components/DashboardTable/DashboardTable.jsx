@@ -99,6 +99,7 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
               <th className="border border-slate-300">Vorname</th>
               <th className="border border-slate-300">E-Mail</th>
               <th className="border border-slate-300">Postadresse</th>
+              <th className="border border-slate-300">Gemeinde / Freizeit</th>
               {showNachweise.nachweis1 && (
                 <>
                   <th className="border border-slate-300">Führungszeugnis gültig ab</th>
@@ -141,15 +142,8 @@ const DashboardTable = ({ data, setData, loading, showNachweise, searchQuery, ro
                   <td className="border border-slate-300 sticky-col">{row.name || ''}</td>
                   <td className="border border-slate-300">{row.vorname || ''}</td>
                   <td className="border border-slate-300">{row.email || ''}</td>
-
-                  {/* only Admins are allowed to see the full adress */}
-                  {userRole === 1 && isAuthenticated === true ? (
-                    <td className="border border-slate-300 min-w-[300px]">{row.postadresse || ''}</td>
-                  ) : (
-                    <td className="border border-slate-300 min-w-[300px]">
-                      {row.postadresse ? row.postadresse.match(/\d{5} [A-Za-zäöüß]+\b/g)?.[0] || '' : ''}
-                    </td>
-                  )}
+                  <td className="border border-slate-300 min-w-[300px]">{row.postadresse || ''}</td>
+                  <td className="border border-slate-300 min-w-[300px]">{row.gemeinde_freizeit || ''}</td>
 
                   {showNachweise.nachweis1 && (
                     <>

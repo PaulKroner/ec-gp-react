@@ -29,6 +29,7 @@ const AddEmployeeDialog = () => {
     vorname: "",
     email: "",
     postadresse: "",
+    gemeinde_freizeit: "",
     fz_eingetragen: "",
     fz_abgelaufen: "",
     fz_kontrolliert: "",
@@ -222,6 +223,7 @@ const AddEmployeeDialog = () => {
     { id: "name", label: "Name", placeholder: "Nachname", required: true },
     { id: "vorname", label: "Vorname", placeholder: "Vorname", required: true },
     { id: "email", label: "E-Mail", placeholder: "E-Mail", type: "email", required: true },
+    { id: "gemeinde_freizeit", label: "Gemeinde / Freizeit", placeholder: "Gemeinde / Freizeit" },
     { id: "fz_eingetragen", label: "Führungszeugnis gültig ab", type: "date" },
     { id: "fz_abgelaufen", label: "Führungszeugnis Ablaufdatum", type: "date", disabled: true },
     { id: "fz_kontrolliert_first", label: "Führungszeugnis kontrolliert von", placeholder: "Max Mustermann" },
@@ -288,6 +290,23 @@ const AddEmployeeDialog = () => {
                   </React.Fragment>
                 );
               };
+
+              if (id === "gemeinde_frezizeit") {
+                return (
+                  <React.Fragment key={id}>
+                    <div className="grid grid-cols-3 items-center gap-4">
+                      <Label htmlFor={id} className={rest.required ? "after:content-['*'] after:ml-0.5 after:text-red-500" : ""}>
+                        {label}
+                      </Label>
+                      <Input id={id} value={formData[id] || ""} onChange={handleChange} {...rest} />
+
+                      <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                        <div>Auszufüllen, falls zugehörige Gemeinde nicht mit Wohnort übereinstimmt.</div>
+                      </span>
+                    </div>
+                  </React.Fragment>
+                );
+              }
 
               if (id === "fz_eingetragen") {
                 return (

@@ -31,6 +31,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
     vorname: data.vorname || '',
     email: data.email || '',
     postadresse: data.postadresse || '',
+    gemeinde_freizeit: data.gemeinde_freizeit || '',
     fz_eingetragen: data.fz_eingetragen || '',
     fz_abgelaufen: data.fz_abgelaufen || '',
     fz_kontrolliert: data.fz_kontrolliert || '',
@@ -107,6 +108,7 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
       vorname: row.vorname || "",
       email: row.email || "",
       postadresse: row.postadresse || "",
+      gemeinde_freizeit: row.gemeinde_freizeit || "",
       fz_eingetragen: row.fz_eingetragen ? formatDateForInput(row.fz_eingetragen) : "",
       fz_abgelaufen: row.fz_abgelaufen ? formatDateForInput(row.fz_abgelaufen) : "",
       fz_kontrolliert: row.fz_kontrolliert || "",
@@ -303,6 +305,21 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
             </div>
             {/* Postadresse Field */}
             <PostalAdress formData={formData} setFormData={setFormData} />
+            {/* Gemeinde / Freizeit Field */}
+
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="gemeinde_freizeit">Gemeinde / Freizeit</Label>
+              <Input
+                type="text"
+                id="gemeinde_freizeit"
+                value={formData.gemeinde_freizeit}
+                onChange={handleChange}
+                className=""
+              />
+              <span className="col-span-1 leading-none font-medium text-xs text-muted-foreground">
+                <div>Auszufüllen, falls zugehörige Gemeinde nicht mit Wohnort übereinstimmt.</div>
+              </span>
+            </div>
             {/* Führungszeugnis Fields */}
             {showNachweise.nachweis1 && (
               <>
@@ -510,9 +527,9 @@ const EditDialog = ({ data, setData, showNachweise, row }) => {
                   abbrechen
                 </Button>
               </DialogClose>
-                <Button className="px-0" type="submit">
-                  <ModalSubmitButton text="Änderungen speichern" loading={loading} />
-                </Button>
+              <Button className="px-0" type="submit">
+                <ModalSubmitButton text="Änderungen speichern" loading={loading} />
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
